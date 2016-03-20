@@ -1,0 +1,8 @@
+{
+  "name": "Visuocial",
+  "version": "1.0.0",
+  "description": "Visuocial - Visualize your Social Media Activities",
+  "dependencies": {
+    "express": "^4.10.2"
+  }
+}
