@@ -17,7 +17,7 @@ app.get('/testdb', function(req, res){
 	var Connection = require('tedious').Connection;
 	var connection = new Connection(db.config);
 	connection.on('connect', function(err) {
-		res.send(err);
+		res.send("Error message: "+err);
 	});
 
 });
