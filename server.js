@@ -9,19 +9,21 @@ app.get('/', function(req, res){
 	res.sendFile(__dirname + '/public_html/index.html');
 });
 
+app.get('/testdb', function(req, res){
+	var db = require('./db.js');
+	console.log ("Test DB config import");
+	console.log (db.config);
+
+	var Connection = require('tedious').Connection;
+	var connection = new Connection(db.config);
+	connection.on('connect', function(err) {
+	console.log(err);
+	// If no error, then good to proceed.
+	console.log("Connected");
+	});
+});
 
 http.listen(port, function(){
 	console.log('listening on *:'+port);
 });
 
-var db = require('./db.js');
-console.log ("Test DB config import");
-console.log (db.config);
-
-// var Connection = require('tedious').Connection;
-// var connection = new Connection(db.config);
-// connection.on('connect', function(err) {
-//     console.log(err);
-//     // If no error, then good to proceed.
-//     console.log("Connected");
-// });
