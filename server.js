@@ -3,11 +3,6 @@ var app = require('express')();
 var http = require('http').Server(app);
 var port = process.env.PORT || 4242;
 
-// Local path
-if (port == 4242) {
-	javaExec = "java";
-}
-
 app.use(express.static(__dirname + '/public_html'));
 
 app.get('/', function(req, res){
@@ -22,3 +17,11 @@ http.listen(port, function(){
 var db = require('./db.js');
 console.log ("Test DB config import");
 console.log (db.config);
+
+// var Connection = require('tedious').Connection;
+// var connection = new Connection(db.config);
+// connection.on('connect', function(err) {
+//     console.log(err);
+//     // If no error, then good to proceed.
+//     console.log("Connected");
+// });
