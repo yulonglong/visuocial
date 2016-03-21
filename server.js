@@ -19,3 +19,6 @@ http.listen(port, function(){
 	console.log('listening on *:'+port);
 });
 
+var db = require('./db.js');
+console.log ("Test DB config import");
+console.log (db.config);
