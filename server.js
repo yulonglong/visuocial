@@ -17,10 +17,9 @@ app.get('/testdb', function(req, res){
 	var Connection = require('tedious').Connection;
 	var connection = new Connection(db.config);
 	connection.on('connect', function(err) {
-	console.log(err);
-	// If no error, then good to proceed.
-	console.log("Connected");
+		res.send(err);
 	});
+
 });
 
 http.listen(port, function(){
