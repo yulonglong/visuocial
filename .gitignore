@@ -34,3 +34,10 @@ node_modules
 
 # database config file
 db.js
+
+# Vagrant
+.vagrant/
+
+# User-defined
+oauth.json
+.tmp
