@@ -32,9 +32,17 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': {
-    view: 'assets/index'
-  }
+  // '/': {
+  //   view: 'assets/index'
+  // },
+
+  // '/login': {
+  //   view: 'assets/login'
+  // },
+
+  // '/dashboard': {
+  //   view: 'assets/dashboard'
+  // }
 
   /***************************************************************************
   *                                                                          *
@@ -45,5 +53,5 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
-
+  'GET /showDashboard': 'PageController.showDashboard'
 };
