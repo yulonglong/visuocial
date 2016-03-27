@@ -18,7 +18,8 @@ module.exports.passport = {
     strategy: require('passport-twitter').Strategy,
     options: {
       consumerKey: config.ids.twitter.consumerKey,
-      consumerSecret: config.ids.twitter.consumerSecret
+      consumerSecret: config.ids.twitter.consumerSecret,
+      callbackURL: config.ids.twitter.callbackURL
     }
   },
 
@@ -28,7 +29,10 @@ module.exports.passport = {
     strategy: require('passport-facebook').Strategy,
     options: {
       clientID: config.ids.facebook.clientID,
-      clientSecret: config.ids.facebook.clientSecret
+      clientSecret: config.ids.facebook.clientSecret,
+      scope: ['email', 'public_profile', 'user_likes', 'user_posts'],
+      profileFields: ['email'],
+      callbackURL: config.ids.facebook.callbackURL
     }
   },
 
@@ -38,7 +42,9 @@ module.exports.passport = {
     strategy: require('passport-instagram').Strategy,
     options: {
       clientID: config.ids.instagram.clientID,
-      clientSecret: config.ids.instagram.clientSecret
+      clientSecret: config.ids.instagram.clientSecret,
+      callbackURL: config.ids.instagram.callbackURL,
+      scope: ['public_content']
     }
   },
 };
