@@ -30,6 +30,7 @@ module.exports = {
 	            	provider: 'facebook'
 				}).then(function (data) {
 					if (data == undefined) return undefined;
+					// console.log(data.tokens.accessToken);
 					return data.tokens.accessToken;
 				});
 
@@ -39,6 +40,7 @@ module.exports = {
 	            	provider: 'instagram'
 				}).then(function (data) {
 					if (data == undefined) return undefined;
+					// console.log(data.tokens.accessToken);
 					return data.tokens.accessToken;
 				});
 
@@ -59,47 +61,91 @@ module.exports = {
 				output.facebook = {};
 				output.twitter = {};
 
-				var T = new Twit({
-					consumer_key:         config.ids.twitter.consumerKey,
-					consumer_secret:      config.ids.twitter.consumerSecret,
-					access_token:         twitterTokens.token,
-					access_token_secret:  twitterTokens.tokenSecret,
-					timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
-				});
+				if (twitterTokens != undefined) {
+					var T = new Twit({
+						consumer_key:         config.ids.twitter.consumerKey,
+						consumer_secret:      config.ids.twitter.consumerSecret,
+						access_token:         twitterTokens.token,
+						access_token_secret:  twitterTokens.tokenSecret,
+						timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
+					});
+				};
+
+				// console.log("instagramAccessToken: " + instagramAccessToken);
+				// console.log("twitterTokens: " + twitterTokens);
+				// console.log("facebookToken: " + facebookAccessToken);
 
 				// run in parallel
 				async.parallel([
 					// Get the most recent media published by a user - instagram
 					function recentPublish(cb) {
-						request.get({
-							url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token=' + instagramAccessToken
-						}, function (err, res, body) {
-							if (err) return res.negotiate(err);
-							output.instagram.recentPublish = body;
-							// console.log(output);
+						if (instagramAccessToken != undefined) {
+							request.get({
+								url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token=' + instagramAccessToken
+							}, function (err, res, body) {
+								if (err) return res.negotiate(err);
+								output.instagram.recentPublish = body;
+								// console.log(output);
+								cb(false);
+							});	
+						} else 
 							cb(false);
-						});	
 					},
 
 					// Get the list of recent media liked by the owner of the access_token - instagram
 					function recentLiked(cb) {
-						request.get({
-							url: 'https://api.instagram.com/v1/users/self/media/liked?access_token=' + instagramAccessToken
-						}, function (err, res, body) {
-							if (err) return res.negotiate(err);
-							output.instagram.recentLiked = body;
-							// console.log(output);
+						if (instagramAccessToken != undefined) {
+							request.get({
+								url: 'https://api.instagram.com/v1/users/self/media/liked?access_token=' + instagramAccessToken
+							}, function (err, res, body) {
+								if (err) return res.negotiate(err);
+								output.instagram.recentLiked = body;
+								// console.log(output);
+								cb(false);
+							});
+						} else
 							cb(false);
-						});
 					},
 
 					// Returns a collection of the most recent Tweets posted by the user - Twitter
 					function recentTweets(cb) {
-						T.get('statuses/user_timeline', function (err, data, response) {
-							console.log(data);
-							output.twitter.recentTweets = data;
+						if (twitterTokens != undefined) {
+							T.get('statuses/user_timeline', function (err, data, response) {
+								output.twitter.recentTweets = data;
+								cb(false);
+							});
+						} else
 							cb(false);
-						});
+					},
+
+					// The feed of posts (including status updates) and links published by this person, or by others on this person's profile - Facebook
+					function recentPosts(cb) {
+						if (facebookAccessToken != undefined) {
+							request.get({
+								url: 'https://graph.facebook.com/v2.5/me/feed?access_token=' + facebookAccessToken
+							}, function (err, res, body) {
+								if (err) return res.negotiate(err);
+								output.facebook.recentPosts = body;
+								// console.log(output);
+								cb(false);
+							});
+						} else 
+							cb(false);
+					},
+
+					// All the Pages this person has liked - Facebook
+					function userLikes(cb) {
+						if (facebookAccessToken != undefined) {
+							request.get({
+								url: 'https://graph.facebook.com/v2.5/me/likes?access_token=' + facebookAccessToken
+							}, function (err, res, body) {
+								if (err) return res.negotiate(err);
+								output.facebook.userLikes = body;
+								// console.log(output);
+								cb(false);
+							});
+						} else 
+							cb(false);
 					},
 
 				], function cb(err) {
@@ -108,6 +154,18 @@ module.exports = {
 
 			}).fail(function (err) {
 				return res.negotiate(err);
+			});
+		}
+	},
+
+	isLoggedIn: function (req, res) {
+		if (!req.session.authenticated) {
+			return res.json({
+				isLoggedIn: 'false'
+			});
+		} else {
+			return res.json({
+				isLoggedIn: 'true'
 			});
 		}
 	}
