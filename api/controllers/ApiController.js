@@ -16,6 +16,7 @@ module.exports = {
 			return res.sendfile('assets/login.html');
 		} else {
 			var userid = req.session.passport.user;
+			// console.log(req.session);
 
 			User.findOne({
 				id: userid
@@ -53,10 +54,11 @@ module.exports = {
 					return data.tokens;
 				});
 
-				return [facebookAccessToken, instagramAccessToken, twitterTokens];
+				return [user, facebookAccessToken, instagramAccessToken, twitterTokens];
 			
-			}).spread(function (facebookAccessToken, instagramAccessToken, twitterTokens) {
+			}).spread(function (user, facebookAccessToken, instagramAccessToken, twitterTokens) {
 				var output = {};
+				output.username = user.username;
 				output.instagram = {};
 				output.facebook = {};
 				output.twitter = {};
