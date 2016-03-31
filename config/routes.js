@@ -53,5 +53,5 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
-  'GET /showDashboard': 'PageController.showDashboard'
+  'GET /dashboard': 'PageController.showDashboard'
 };
