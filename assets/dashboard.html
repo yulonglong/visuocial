@@ -7,7 +7,7 @@
    <!--- basic page needs
    ================================================== -->
    <meta charset="utf-8">
-	<title>Visuocial - Register</title>
+	<title>Visuocial - Dashboard</title>
 	<meta name="description" content="">  
 	<meta name="author" content="">
 
@@ -42,7 +42,156 @@
 </head>
 
 <body id="top">
-THIS IS A DASHBOARD STUB (REQUIRES LOGIN TO REACH HERE)
+
+   <!-- header 
+   ================================================== -->
+   <header>
+
+      <div class="row">
+
+         <div class="logo">
+            <a href="index.html">Visuocial</a>
+         </div>
+
+         <nav id="main-nav-wrap">
+            <ul class="main-navigation">
+               <li><a href="/dashboard" title="">Dashboard</a></li>
+               <li class="highlight with-sep"><a href="/logout" title="">Log out</a></li>              
+            </ul>
+         </nav>
+
+         <a class="menu-toggle" href="#"><span>Menu</span></a>
+         
+      </div>      
+      
+   </header> <!-- /header -->
+
+      <!-- intro section
+   ================================================== -->
+   <section id="features">
+      <div class="row section-intro">
+         <div class="col-twelve">
+               <h1>Welcome,</h1>
+               <h5 id="welcome_username"></h5>
+            </div>  
+         </div>               
+   </section> <!-- /intro -->
+
+   <section id="styles">
+
+      <div class="row">
+
+         <div class="col-twelve tab-full">
+
+            <h1>Dashboard.</h1>       
+            <p id="dummy_id"></p>
+         </div>
+      </div>
+   </section>
+
+   <!-- footer
+   ================================================== -->
+   <footer>
+
+      <div class="footer-main">
+
+         <div class="row">  
+
+            <div class="col-four tab-full mob-full footer-info">            
+
+               <div class="footer-logo"></div>
+
+               <p>
+               13 Computing Drive<br>
+               Singapore 117417<br>
+               info@visuocial.com
+               </p>
+
+            </div> <!-- /footer-info -->
+
+            <div class="col-two tab-1-3 mob-1-2 site-links">
+
+               <h4>Site Links</h4>
+
+               <ul>
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="index.html#faq">FAQ</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+               </ul>
+
+            </div> <!-- /site-links -->  
+
+            <div class="col-two tab-1-3 mob-1-2 social-links">
+
+               <h4>Social</h4>
+
+               <ul>
+                  <li><a href="#">Twitter</a></li>
+                  <li><a href="#">Facebook</a></li>
+                  <li><a href="#">Google+</a></li>
+               </ul>
+                        
+            </div> <!-- /social --> 
+
+            <div class="col-four tab-1-3 mob-full footer-subscribe">
+
+               <h4>Subscribe</h4>
+
+               <p>Keep yourself updated. Subscribe to our newsletter.</p>
+
+               <div class="subscribe-form">
+            
+                  <form id="mc-form" class="group" novalidate="true">
+
+                     <input type="email" value="" name="dEmail" class="email" id="mc-email" placeholder="type email &amp; hit enter" required=""> 
+            
+                     <input type="submit" name="subscribe" >
+            
+                     <label for="mc-email" class="subscribe-message"></label>
+         
+               </form>
+
+               </div>               
+                        
+            </div> <!-- /subscribe -->         
+
+         </div> <!-- /row -->
+
+      </div> <!-- /footer-main -->
+
+
+      <div class="footer-bottom">
+
+         <div class="row">
+
+            <div class="col-twelve">
+               <div class="copyright">
+                  <span>© Copyright Visuocial.com 2016.</span>             
+               </div>
+
+               <div id="go-top" style="display: block;">
+                  <a class="smoothscroll" title="Back to Top" href="#top"><i class="icon ion-android-arrow-up"></i></a>
+               </div>         
+            </div>
+
+         </div> <!-- /footer-bottom -->      
+
+      </div>
+
+   </footer>  
+
+   <div id="preloader"> 
+      <div id="loader"></div>
+   </div> 
+
+   <!-- Java Script
+   ================================================== --> 
+   <script src="js/jquery-1.11.3.min.js"></script>
+   <script src="js/jquery-migrate-1.2.1.min.js"></script>
+   <script src="js/plugins.js"></script>
+   <script src="js/main.js"></script>
+
+   <script src="js/dashboard.js"></script>
 
 </body>
 
