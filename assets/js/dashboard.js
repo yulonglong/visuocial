@@ -11,9 +11,11 @@ function processUserDataAJAX() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 			responseJson = xmlhttp.responseText;
 			var responseArray = JSON.parse(responseJson);
-			$("#dummy_id").html(responseJson);
 			$("#welcome_username").html(responseArray["username"]);
-			
+
+			$("#fb_content").html(JSON.stringify(responseArray["facebook"]));
+			$("#twitter_content").html(JSON.stringify(responseArray["twitter"]));
+			$("#instagram_content").html(JSON.stringify(responseArray["instagram"]));
 		}
 	};
 	xmlhttp.open("GET","/api/getUserData",true);
