@@ -684,6 +684,11 @@ input[type="reset"].button-primary:focus,
 input[type="button"].button-primary:focus {
 	background: #04998a;
 }
+button.adapt-width, .button.adapt-width {
+	width: 100%;
+	max-width: 300px;
+	margin-right: 0;
+}
 button.full-width, .button.full-width {
 	width: 100%;
 	margin-right: 0;
