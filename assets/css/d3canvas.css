@@ -1,0 +1,14 @@
+.d3canvas {
+  margin: auto;
+}
+
+.d3canvas text {
+  font: 10px sans-serif;
+}
+
+.d3canvas .axis path,
+.d3canvas .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}

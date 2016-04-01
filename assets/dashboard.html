@@ -83,18 +83,54 @@
          <div class="col-twelve tab-full">
             <h1>Link Accounts.</h1>
             <div class="col-four tab-full">
-               <a id="link_fb" class="button full-width" href="/auth/facebook">Link with Facebook | <i class="fa fa-facebook"></i></a>
+               <a id="link_fb_button" class="button full-width" href="/auth/facebook">Link with Facebook | <i class="fa fa-facebook"></i></a>
+               <h6 id="link_fb" style="text-align: center;"></h6>
+            </div>
+
+            <div class="col-four tab-full">
+               <a id="link_twitter_button" class="button full-width" href="/auth/twitter">Link with Twitter | <i class="fa fa-twitter"></i></a>
+               <h6 id="link_twitter" style="text-align: center;"></h6>
             </div>
             <div class="col-four tab-full">
-               <a class="button full-width" href="/auth/twitter">Link with Twitter | <i class="fa fa-twitter"></i></a>
-            </div>
-            <div class="col-four tab-full">
-               <a class="button full-width" href="/auth/instagram">Link with Instagram | <i class="fa fa-instagram"></i></a>
+               <a id="link_insta_button" class="button full-width" href="/auth/instagram">Link with Instagram | <i class="fa fa-instagram"></i></a>
+               <h6 id="link_insta" style="text-align: center;"></h6>
             </div>
          </div>
+      </div>
 
+     <div class="row">
          <div class="col-twelve tab-full">
             <h1>Dashboard.</h1>
+         </div>
+      </div>
+
+      <div class="row">
+         <div class="col-six tab-full">
+            <h5>Time-range</h5>
+            <form>
+               <input type="radio" name="range" value="1-week">1 week</input><br>
+               <input type="radio" name="range" value="2-weeks">2 weeks</input><br>
+               <input type="radio" name="range" value="4-weeks">4 weeks</input><br>
+               <input type="radio" name="range" value="8-weeks" checked>8 weeks</input><br>
+            </form>
+         </div>
+         <div class="col-six tab-full">
+            <h5>Visualization type</h5>
+            <form>
+               <input type="radio" name="mode" value="grouped"> Grouped</input><br>
+               <input type="radio" name="mode" value="stacked" checked> Stacked</input>
+            </form>
+         </div>
+      </div>
+
+      <div class="row">
+         <div class="col-twelve tab-full d3canvas" id="d3canvas">
+
+         </div>
+      </div>
+
+      <div class="row">
+         <div class="col-twelve tab-full">
             <h3>Facebook.</h3>
             <ul id="fb_content"></ul>
             <h3>Twitter.</h3>
@@ -210,6 +246,12 @@
    <script src="js/plugins.js"></script>
    <script src="js/main.js"></script>
 
+
+   <link rel="stylesheet" href="css/d3canvas.css">  
+   <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+   <script src="js/d3js/common.js"></script>
+   <script src="js/d3js/stacked-to-grouped_bars.js"></script>
    <script src="js/dashboard.js"></script>
 
 </body>
