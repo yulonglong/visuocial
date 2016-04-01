@@ -6,7 +6,15 @@
  */
 
 module.exports = {
-	showDashboard: function (req, res) {
+	dashboard: function (req, res) {
+		// if not authenticated, show login page
+		if (!req.session.authenticated) {
+			return res.sendfile('assets/login.html');
+		} else {
+			return res.sendfile('assets/dashboard.html');
+		}
+	},
+	login: function (req, res) {
 		// if not authenticated, show login page
 		if (!req.session.authenticated) {
 			return res.sendfile('assets/login.html');
