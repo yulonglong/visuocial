@@ -1,3 +1,5 @@
+processUserDataAJAX();
+
 function processUserDataAJAX() {
 	var xmlhttp;
 	if (window.XMLHttpRequest) {
@@ -9,15 +11,22 @@ function processUserDataAJAX() {
 	}
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			processData(xmlhttp.responseText);
+			processData(xmlhttp.responseText, $('input:radio[name=range]:checked').val());
 		}
 	};
 	xmlhttp.open("GET","/api/getUserData",true);
 	xmlhttp.send();
 }
 
+$("#radio-range-div input[name=range]").click(function(){
+    var m = ($('input:radio[name=range]:checked').val());
+    processData(cachedRawData, m);
+});
 
-function processData(rawData) {
+var cachedRawData;
+
+function processData(rawData, m) {
+	cachedRawData = rawData;
 	var responseArray = JSON.parse(rawData);
 	$("#welcome_username").html(responseArray["username"]);
 
@@ -92,8 +101,9 @@ function processData(rawData) {
 		// $("#raw_content").append(JSON.stringify(instaRecentLiked)+"<br>");
 	}
 
+
+	$(".d3canvas").html("");
+	stackedToGroupedBars(m);
 }
 
 
-stackedToGroupedBars();
-processUserDataAJAX();
