@@ -269,3 +269,22 @@ function processData(rawData, m) {
 }
 
 
+function toggleShowFacebookActivities() {
+	if ($('#fb_table').css('display') == 'none') $('#fb_toggle_button').html("Hide");
+	else  $('#fb_toggle_button').html("Show");
+
+	$("#fb_table").toggle();
+}
+
+function toggleShowTwitterActivities() {
+	if ($('#twitter_table').css('display') == 'none') $('#twitter_toggle_button').html("Hide");
+	else  $('#twitter_toggle_button').html("Show");
+	$("#twitter_table").toggle();
+}
+
+function toggleShowInstagramActivities() {
+	if ($('#instagram_table').css('display') == 'none') $('#instagram_toggle_button').html("Hide");
+	else  $('#instagram_toggle_button').html("Show");
+
+	$("#instagram_table").toggle();
+}
