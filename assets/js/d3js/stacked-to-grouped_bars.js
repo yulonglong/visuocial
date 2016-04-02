@@ -8,7 +8,7 @@ function stackedToGroupedBars(n, m, parsedData) {
     yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
     yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
-  var margin = {top: 40, right: 10, bottom: 40, left: 10},
+  var margin = {top: 40, right: 10, bottom: 50, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -30,6 +30,11 @@ function stackedToGroupedBars(n, m, parsedData) {
     .tickPadding(6)
     .tickFormat(function(d) { return parsedData["date"][d]; })
     .orient("bottom");
+
+  var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(d3.format("d"));
 
   var svg = d3.select("#d3canvas").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -57,25 +62,35 @@ function stackedToGroupedBars(n, m, parsedData) {
     .attr("y", function(d) { return y(d.y0 + d.y); })
     .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); });
 
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Posts/Likes");
+
   if (m <= 18) {
     svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
   }
   else {
      var rotation = "-65";
      if (m > 50) rotation = "-75";
 
      svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis)
-    .selectAll("text")  
-            .style("text-anchor", "end")
-            .attr("dx", "-.8em")
-            .attr("dy", ".15em")
-            .attr("transform", "rotate("+rotation+")" );
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+      .selectAll("text")  
+              .style("text-anchor", "end")
+              .attr("dx", "-.8em")
+              .attr("dy", ".15em")
+              .attr("transform", "rotate("+rotation+")" );
   }
  
 
@@ -102,6 +117,9 @@ function stackedToGroupedBars(n, m, parsedData) {
       .transition()
         .attr("y", function(d) { return y(d.y); })
         .attr("height", function(d) { return height - y(d.y); });
+
+     svg.selectAll("g .y.axis")
+      .call(yAxis)
   }
 
   function transitionStacked() {
@@ -115,6 +133,9 @@ function stackedToGroupedBars(n, m, parsedData) {
       .transition()
         .attr("x", function(d) { return x(d.x); })
         .attr("width", x.rangeBand());
+
+    svg.selectAll("g .y.axis")
+      .call(yAxis)
   }
 
   // Inspired by Lee Byron's test data generator.
