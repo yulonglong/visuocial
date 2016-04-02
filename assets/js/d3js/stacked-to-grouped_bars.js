@@ -21,8 +21,8 @@ function stackedToGroupedBars(n, m, parsedData) {
     .range([height, 0]);
 
   var color = d3.scale.linear()
-    .domain([0, n - 1])
-    .range(["#aad", "#556"]);
+    .domain(d3.range(n))
+    .range(["#aad","#828297","#556"]);
 
   var xAxis = d3.svg.axis()
     .scale(x)
@@ -92,6 +92,26 @@ function stackedToGroupedBars(n, m, parsedData) {
               .attr("dy", ".15em")
               .attr("transform", "rotate("+rotation+")" );
   }
+
+  var legend = svg.selectAll(".legend")
+      .data(color.domain().slice().reverse())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return parsedData["indexMapping"][d]; });
+
  
 
   d3.selectAll("input").on("change", change);

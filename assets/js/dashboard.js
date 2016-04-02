@@ -88,6 +88,8 @@ function processData(rawData, m) {
 	var earliestDate = new Date(today.getTime());
 	earliestDate.setDate(earliestDate.getDate()-mInt);
 
+	parsedData["indexMapping"] = [];
+
 	if (fbValid) {
 		var fbUserLikes = JSON.parse(responseArray["facebook"]["userLikes"]);
 		var fbRecentPosts = JSON.parse(responseArray["facebook"]["recentPosts"]);
@@ -159,7 +161,9 @@ function processData(rawData, m) {
 			}
 		}
 
-		parsedData[nIndex++] = fbParsedData;
+		parsedData[nIndex] = fbParsedData;
+		parsedData["indexMapping"][nIndex] = "Facebook";
+		nIndex++;
 
 		// $("#raw_content").append("FB<br>" + JSON.stringify(fbParsedData)+"<br>");
 		// Process Data - End
@@ -210,7 +214,9 @@ function processData(rawData, m) {
 			}
 		}
 
-		parsedData[nIndex++] = twitterParsedData;
+		parsedData[nIndex] = twitterParsedData;
+		parsedData["indexMapping"][nIndex] = "Twitter";
+		nIndex++;
 
 		// $("#raw_content").append("Twitter<br>" + JSON.stringify(twitterParsedData)+"<br>");
 		// Process Data - End
@@ -295,7 +301,9 @@ function processData(rawData, m) {
 			}
 		}
 
-		parsedData[nIndex++] = instaParsedData;
+		parsedData[nIndex] = instaParsedData;
+		parsedData["indexMapping"][nIndex] = "Instagram";
+		nIndex++;
 
 		// $("#raw_content").append("Insta<br>" + JSON.stringify(instaParsedData)+"<br>");
 		// Process Data - End
