@@ -1,0 +1,26 @@
+Instructions to host in Azure:
+
+1. navigate to `/node_modules/grunt`
+`npm install glob@^6.0.4 --save`
+
+2. edit `oauth.json` with proper tokens and url
+
+3. `config/models.js`
+
+module.exports.models = {
+	connection: 'sqlserver',
+	migrate: 'safe'
+};
+
+4. `config/connections.js`
+
+sqlserver: {
+	adapter: 'sails-sqlserver',
+	user: 'xxxx',
+	password: 'xxxx',
+	host: 'servername.database.windows.net', // azure database 
+	database: 'dbname',
+	options: {
+	  encrypt: true   // use this for Azure databases 
+	}
+}
