@@ -41,6 +41,8 @@ function processData(rawData, m) {
 	}
 	else {
 		$("#link_fb").html("<i class=\"fa fa-check-square\"></i> Linked");
+		$("#link_fb_button").removeAttr("href");
+		$("#link_fb_button").addClass("button-disabled");
 		fbValid = true;
 	}
 
@@ -49,6 +51,8 @@ function processData(rawData, m) {
 	}
 	else {
 		$("#link_twitter").html("<i class=\"fa fa-check-square\"></i> Linked");
+		$("#link_twitter_button").removeAttr("href");
+		$("#link_twitter_button").addClass("button-disabled");
 		twitterValid = true;
 	}
 
@@ -57,6 +61,8 @@ function processData(rawData, m) {
 	}
 	else {
 		$("#link_insta").html("<i class=\"fa fa-check-square\"></i> Linked");
+		$("#link_insta_button").removeAttr("href");
+		$("#link_insta_button").addClass("button-disabled");
 		instaValid = true;
 	}
 
@@ -150,7 +156,7 @@ function processData(rawData, m) {
 
 		parsedData["facebook"] = fbParsedData;
 
-		$("#raw_content").append("FB<br>" + JSON.stringify(fbParsedData)+"<br>");
+		// $("#raw_content").append("FB<br>" + JSON.stringify(fbParsedData)+"<br>");
 		// Process Data - End
 	}
 
@@ -201,7 +207,7 @@ function processData(rawData, m) {
 
 		parsedData["twitter"] = twitterParsedData;
 
-		$("#raw_content").append("Twitter<br>" + JSON.stringify(twitterParsedData)+"<br>");
+		// $("#raw_content").append("Twitter<br>" + JSON.stringify(twitterParsedData)+"<br>");
 		// Process Data - End
 	}
 	
@@ -286,7 +292,7 @@ function processData(rawData, m) {
 
 		parsedData["instagram"] = instaParsedData;
 
-		$("#raw_content").append("Insta<br>" + JSON.stringify(instaParsedData)+"<br>");
+		// $("#raw_content").append("Insta<br>" + JSON.stringify(instaParsedData)+"<br>");
 		// Process Data - End
 	}
 

@@ -663,6 +663,25 @@ input[type="button"]:focus {
 	outline: 0;
 }
 
+.button-disabled{
+	color: #bfbfbf;
+}
+.button-disabled:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button-disabled:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+	background: #d8d8d8;
+	color: #bfbfbf;
+	outline: 0;
+	cursor: default;
+}
+
 .button.button-primary,
 button.button-primary,
 input[type="submit"].button-primary,
