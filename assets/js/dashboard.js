@@ -60,9 +60,7 @@ function processData(rawData, m) {
 		instaValid = true;
 	}
 
-	var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-	  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-	];
+	
 	parsedData["date"] = [];
 	var mInt = parseInt(m);
 	var today = new Date();
@@ -76,6 +74,8 @@ function processData(rawData, m) {
 		parsedData["date"][i] = ddmm;
 		currDateGlobal.setDate(currDateGlobal.getDate() + 1);
 	}
+	var earliestDate = new Date(today.getTime());
+	earliestDate.setDate(earliestDate.getDate()-mInt);
 
 	if (fbValid) {
 		var fbUserLikes = JSON.parse(responseArray["facebook"]["userLikes"]);
@@ -83,12 +83,22 @@ function processData(rawData, m) {
 
 		$("#fb_likes_tbody").html("");
 		for (var i=0;i<fbUserLikes["data"].length;i++) {
-			$("#fb_likes_tbody").append("<tr><td>"+fbUserLikes["data"][i]["name"]+"</td><td>"+fbUserLikes["data"][i]["created_time"]+"</td></tr>");
+			var createdTime = parseDate(fbUserLikes["data"][i]["created_time"]);
+			// Check whether the created date is in the selected range, if not dont show
+			var createdDate = new Date(parseDate(fbUserLikes["data"][i]["created_time"]));
+			if (createdDate < earliestDate) break;
+
+			$("#fb_likes_tbody").append("<tr><td>"+fbUserLikes["data"][i]["name"]+"</td><td>"+createdTime+"</td></tr>");
 		}
 
 		$("#fb_posts_tbody").html("");
 		for (var i=0;i<fbRecentPosts["data"].length;i++) {
-			$("#fb_posts_tbody").append("<tr><td>"+fbRecentPosts["data"][i]["message"]+"</td><td>"+fbRecentPosts["data"][i]["story"]+"</td><td>"+fbRecentPosts["data"][i]["created_time"]+"</td></tr>");
+			var createdTime = parseDate(fbRecentPosts["data"][i]["created_time"]);
+			// Check whether the created date is in the selected range, if not dont show
+			var createdDate = new Date(parseDate(fbRecentPosts["data"][i]["created_time"]));
+			if (createdDate < earliestDate) break;
+
+			$("#fb_posts_tbody").append("<tr><td>"+fbRecentPosts["data"][i]["message"]+"</td><td>"+fbRecentPosts["data"][i]["story"]+"</td><td>"+createdTime+"</td></tr>");
 		}
 
 		// $("#raw_content").append(JSON.stringify(fbUserLikes)+"<br>");
@@ -149,7 +159,12 @@ function processData(rawData, m) {
 
 		$("#twitter_posts_tbody").html("");
 		for (var i=0;i<twitterRecentWeets["recentTweets"].length;i++) {
-			$("#twitter_posts_tbody").append("<tr><td>"+twitterRecentWeets["recentTweets"][i]["text"]+"</td><td>"+twitterRecentWeets["recentTweets"][i]["created_at"]+"</td></tr>");
+			var createdTime = parseDate(twitterRecentWeets["recentTweets"][i]["created_at"]);
+			// Check whether the created date is in the selected range, if not dont show
+			var createdDate = new Date(parseDate(twitterRecentWeets["recentTweets"][i]["created_at"]));
+			if (createdDate < earliestDate) break;
+
+			$("#twitter_posts_tbody").append("<tr><td>"+twitterRecentWeets["recentTweets"][i]["text"]+"</td><td>"+createdTime+"</td></tr>");
 		}
 		// $("#raw_content").append(JSON.stringify(twitterRecentWeets)+"<br>");
 
@@ -199,7 +214,13 @@ function processData(rawData, m) {
 			var currCaption = instaRecentPublish["data"][i]["caption"];
 			if (currCaption == null) currCaption = "N.A.";
 			else currCaption = currCaption["text"];
-			$("#instagram_posts_tbody").append("<tr><td>"+currCaption+"</td><td>"+instaRecentPublish["data"][i]["created_time"]+"</td></tr>");
+			var createdTime = parseDate(parseInt(instaRecentPublish["data"][i]["created_time"])*1000);
+
+			// Check whether the created date is in the selected range, if not dont show
+			var createdDate = new Date(parseDate(parseInt(instaRecentPublish["data"][i]["created_time"])*1000));
+			if (createdDate < earliestDate) break;
+
+			$("#instagram_posts_tbody").append("<tr><td>"+currCaption+"</td><td>"+createdTime+"</td></tr>");
 		}
 
 		$("#instagram_likes_tbody").html("");
@@ -207,7 +228,13 @@ function processData(rawData, m) {
 			var currCaption = instaRecentLiked["data"][i]["caption"];
 			if (currCaption == null) currCaption = "N.A.";
 			else currCaption = currCaption["text"];
-			$("#instagram_likes_tbody").append("<tr><td>"+currCaption+"</td><td>"+instaRecentLiked["data"][i]["created_time"]+"</td></tr>");
+			var createdTime = parseDate(parseInt(instaRecentLiked["data"][i]["created_time"])*1000);
+
+			// Check whether the created date is in the selected range, if not dont show
+			var createdDate = new Date(parseDate(parseInt(instaRecentLiked["data"][i]["created_time"])*1000));
+			if (createdDate < earliestDate) break;
+
+			$("#instagram_likes_tbody").append("<tr><td>"+currCaption+"</td><td>"+createdTime+"</td></tr>");
 		}
 		// $("#raw_content").append(JSON.stringify(instaRecentPublish)+"<br>");
 		// $("#raw_content").append(JSON.stringify(instaRecentLiked)+"<br>");
@@ -287,4 +314,23 @@ function toggleShowInstagramActivities() {
 	else  $('#instagram_toggle_button').html("Show");
 
 	$("#instagram_table").toggle();
+}
+
+var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
+function parseDate(uglyDate) {
+	var currentdate = new Date(uglyDate);
+	var hours = currentdate.getHours();
+	if (hours < 10) hours = '0'+hours;
+	var minutes = currentdate.getMinutes();
+	if (minutes < 10) minutes = '0'+minutes;
+
+	var datetime = currentdate.getDate() + "-"
+                + (monthNames[currentdate.getMonth()])  + "-" 
+                + currentdate.getFullYear() + " @ "  
+                + hours + ":"  
+                + minutes;
+    return datetime;
 }
