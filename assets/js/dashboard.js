@@ -21,6 +21,7 @@ function processUserDataAJAX() {
 $("#radio-range-div input[name=range]").click(function(){
     var m = ($('input:radio[name=range]:checked').val());
     processData(cachedRawData, m);
+    $('input[name=mode][value=stacked]').attr('checked', true);
 });
 
 var cachedRawData;
@@ -80,14 +81,16 @@ function processData(rawData, m) {
 		var fbUserLikes = JSON.parse(responseArray["facebook"]["userLikes"]);
 		var fbRecentPosts = JSON.parse(responseArray["facebook"]["recentPosts"]);
 
-		$("#fb_content").html("");
-
+		$("#fb_likes_tbody").html("");
 		for (var i=0;i<fbUserLikes["data"].length;i++) {
-			$("#fb_content").append("<li>"+fbUserLikes["data"][i]["name"]+"<br>"+fbUserLikes["data"][i]["created_time"]+"</li>");
+			$("#fb_likes_tbody").append("<tr><td>"+fbUserLikes["data"][i]["name"]+"</td><td>"+fbUserLikes["data"][i]["created_time"]+"</td></tr>");
 		}
+
+		$("#fb_posts_tbody").html("");
 		for (var i=0;i<fbRecentPosts["data"].length;i++) {
-			$("#fb_content").append("<li>"+fbRecentPosts["data"][i]["message"]+"<br>"+fbRecentPosts["data"][i]["story"]+"<br>"+fbRecentPosts["data"][i]["created_time"]+"</li>");
+			$("#fb_posts_tbody").append("<tr><td>"+fbRecentPosts["data"][i]["message"]+"</td><td>"+fbRecentPosts["data"][i]["story"]+"</td><td>"+fbRecentPosts["data"][i]["created_time"]+"</td></tr>");
 		}
+
 		// $("#raw_content").append(JSON.stringify(fbUserLikes)+"<br>");
 		// $("#raw_content").append(JSON.stringify(fbRecentPosts)+"<br>");
 
@@ -143,10 +146,10 @@ function processData(rawData, m) {
 
 	if (twitterValid) {
 		var twitterRecentWeets = responseArray["twitter"];
-		$("#twitter_content").html("");
 
+		$("#twitter_posts_tbody").html("");
 		for (var i=0;i<twitterRecentWeets["recentTweets"].length;i++) {
-			$("#twitter_content").append("<li>"+twitterRecentWeets["recentTweets"][i]["text"]+"<br>"+twitterRecentWeets["recentTweets"][i]["created_at"]+"</li>");
+			$("#twitter_posts_tbody").append("<tr><td>"+twitterRecentWeets["recentTweets"][i]["text"]+"</td><td>"+twitterRecentWeets["recentTweets"][i]["created_at"]+"</td></tr>");
 		}
 		// $("#raw_content").append(JSON.stringify(twitterRecentWeets)+"<br>");
 
@@ -191,13 +194,20 @@ function processData(rawData, m) {
 		var instaRecentPublish = JSON.parse(responseArray["instagram"]["recentPublish"]);
 		var instaRecentLiked = JSON.parse(responseArray["instagram"]["recentLiked"]);
 		
-		$("#instagram_content").html("");
-
+		$("#instagram_posts_tbody").html("");
 		for (var i=0;i<instaRecentPublish["data"].length;i++) {
-			$("#instagram_content").append("<li>"+instaRecentPublish["data"][i]["link"]+"<br>"+instaRecentPublish["data"][i]["created_time"]+"</li>");
+			var currCaption = instaRecentPublish["data"][i]["caption"];
+			if (currCaption == null) currCaption = "N.A.";
+			else currCaption = currCaption["text"];
+			$("#instagram_posts_tbody").append("<tr><td>"+currCaption+"</td><td>"+instaRecentPublish["data"][i]["created_time"]+"</td></tr>");
 		}
+
+		$("#instagram_likes_tbody").html("");
 		for (var i=0;i<instaRecentLiked["data"].length;i++) {
-			$("#instagram_content").append("<li>"+instaRecentLiked["data"][i]["link"]+"<br>"+instaRecentLiked["data"][i]["created_time"]+"</li>");
+			var currCaption = instaRecentLiked["data"][i]["caption"];
+			if (currCaption == null) currCaption = "N.A.";
+			else currCaption = currCaption["text"];
+			$("#instagram_likes_tbody").append("<tr><td>"+currCaption+"</td><td>"+instaRecentLiked["data"][i]["created_time"]+"</td></tr>");
 		}
 		// $("#raw_content").append(JSON.stringify(instaRecentPublish)+"<br>");
 		// $("#raw_content").append(JSON.stringify(instaRecentLiked)+"<br>");

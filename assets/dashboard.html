@@ -130,12 +130,54 @@
 
       <div class="row">
          <div class="col-twelve tab-full">
-            <h3>Facebook.</h3>
-            <ul id="fb_content"></ul>
-            <h3>Twitter.</h3>
-            <ul id="twitter_content"></ul>
-            <h3>Instagram.</h3>
-            <ul id="instagram_content"></ul>
+            <h3>Facebook Activities.</h3>
+            <div class="table-responsive" id="fb_likes">
+               <table>
+                 <thead>
+                   <tr><th>Page Liked</th><th>Timestamp</th></tr>
+                 </thead>
+                 <tbody id="fb_likes_tbody">
+                 </tbody>
+               </table>
+            </div>
+            <div class="table-responsive" id="fb_posts">
+               <table>
+                 <thead>
+                   <tr><th>Message</th><th>Story</th><th>Timestamp</th></tr>
+                 </thead>
+                 <tbody id="fb_posts_tbody">
+                 </tbody>
+               </table>
+            </div>
+            <h3>Twitter Activities.</h3>
+            <div class="table-responsive" id="twitter_posts">
+               <table>
+                 <thead>
+                   <tr><th>Tweet</th><th>Timestamp</th></tr>
+                 </thead>
+                 <tbody id="twitter_posts_tbody">
+                 </tbody>
+               </table>
+            </div>
+            <h3>Instagram Activities.</h3>
+            <div class="table-responsive" id="instagram_likes">
+               <table>
+                 <thead>
+                   <tr><th>Caption</th><th>Timestamp</th></tr>
+                 </thead>
+                 <tbody id="instagram_posts_tbody">
+                 </tbody>
+               </table>
+            </div>
+            <div class="table-responsive" id="instagram_posts">
+               <table>
+                 <thead>
+                   <tr><th>Caption</th><th>Timestamp</th></tr>
+                 </thead>
+                 <tbody id="instagram_likes_tbody">
+                 </tbody>
+               </table>
+            </div>
 
             <h3>Raw Json.</h3>
             <p id="raw_content"></p>
