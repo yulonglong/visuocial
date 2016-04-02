@@ -8,6 +8,8 @@ function stackedToGroupedBars(n, m, parsedData) {
     yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
     yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
+  var colorArray = ["#aad","#828297","#556"];
+
   var margin = {top: 40, right: 10, bottom: 50, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -19,10 +21,6 @@ function stackedToGroupedBars(n, m, parsedData) {
   var y = d3.scale.linear()
     .domain([0, yStackMax])
     .range([height, 0]);
-
-  var color = d3.scale.linear()
-    .domain(d3.range(n))
-    .range(["#aad","#828297","#556"]);
 
   var xAxis = d3.svg.axis()
     .scale(x)
@@ -47,7 +45,7 @@ function stackedToGroupedBars(n, m, parsedData) {
     .data(layers)
   .enter().append("g")
     .attr("class", "layer")
-    .style("fill", function(d, i) { return color(i); });
+    .style("fill", function(d, i) { return colorArray[i]; });
 
   var rect = layer.selectAll("rect")
     .data(function(d) { return d; })
@@ -93,8 +91,10 @@ function stackedToGroupedBars(n, m, parsedData) {
               .attr("transform", "rotate("+rotation+")" );
   }
 
+
+  // Colour Legend - begin
   var legend = svg.selectAll(".legend")
-      .data(color.domain().slice().reverse())
+      .data(d3.range(n).reverse())
     .enter().append("g")
       .attr("class", "legend")
       .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
@@ -103,7 +103,7 @@ function stackedToGroupedBars(n, m, parsedData) {
       .attr("x", width - 18)
       .attr("width", 18)
       .attr("height", 18)
-      .style("fill", color);
+      .style("fill", function(d) { return colorArray[d]; });
 
   legend.append("text")
       .attr("x", width - 24)
@@ -112,6 +112,7 @@ function stackedToGroupedBars(n, m, parsedData) {
       .style("text-anchor", "end")
       .text(function(d) { return parsedData["indexMapping"][d]; });
 
+  // Colour Legend - end
  
 
   d3.selectAll("input").on("change", change);
