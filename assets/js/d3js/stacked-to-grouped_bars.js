@@ -10,7 +10,7 @@ function stackedToGroupedBars(m, parsedData) {
     yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
     yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
-  var margin = {top: 40, right: 10, bottom: 20, left: 10},
+  var margin = {top: 40, right: 10, bottom: 40, left: 10},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -30,6 +30,7 @@ function stackedToGroupedBars(m, parsedData) {
     .scale(x)
     .tickSize(0)
     .tickPadding(6)
+    .tickFormat(function(d) { return parsedData["date"][d]; })
     .orient("bottom");
 
   var svg = d3.select("#d3canvas").append("svg")
@@ -58,47 +59,64 @@ function stackedToGroupedBars(m, parsedData) {
     .attr("y", function(d) { return y(d.y0 + d.y); })
     .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); });
 
-  svg.append("g")
+  if (m <= 18) {
+    svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
     .call(xAxis);
+  }
+  else {
+     var rotation = "-65";
+     if (m > 50) rotation = "-75";
+
+     svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis)
+    .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate("+rotation+")" );
+  }
+ 
 
   d3.selectAll("input").on("change", change);
 
-  var timeout = setTimeout(function() {
-  d3.select("input[value=\"grouped\"]").property("checked", true).each(change);
-  }, 2000);
+  // var timeout = setTimeout(function() {
+  // d3.select("input[value=\"grouped\"]").property("checked", true).each(change);
+  // }, 2000);
 
   function change() {
-  clearTimeout(timeout);
+  // clearTimeout(timeout);
   if (this.value === "grouped") transitionGrouped();
   else transitionStacked();
   }
 
   function transitionGrouped() {
-  y.domain([0, yGroupMax]);
+    y.domain([0, yGroupMax]);
 
-  rect.transition()
-      .duration(500)
-      .delay(function(d, i) { return i * 10; })
-      .attr("x", function(d, i, j) { return x(d.x) + x.rangeBand() / n * j; })
-      .attr("width", x.rangeBand() / n)
-    .transition()
-      .attr("y", function(d) { return y(d.y); })
-      .attr("height", function(d) { return height - y(d.y); });
+    rect.transition()
+        .duration(500)
+        .delay(function(d, i) { return i * 10; })
+        .attr("x", function(d, i, j) { return x(d.x) + x.rangeBand() / n * j; })
+        .attr("width", x.rangeBand() / n)
+      .transition()
+        .attr("y", function(d) { return y(d.y); })
+        .attr("height", function(d) { return height - y(d.y); });
   }
 
   function transitionStacked() {
-  y.domain([0, yStackMax]);
+    y.domain([0, yStackMax]);
 
-  rect.transition()
-      .duration(500)
-      .delay(function(d, i) { return i * 10; })
-      .attr("y", function(d) { return y(d.y0 + d.y); })
-      .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
-    .transition()
-      .attr("x", function(d) { return x(d.x); })
-      .attr("width", x.rangeBand());
+    rect.transition()
+        .duration(500)
+        .delay(function(d, i) { return i * 10; })
+        .attr("y", function(d) { return y(d.y0 + d.y); })
+        .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
+      .transition()
+        .attr("x", function(d) { return x(d.x); })
+        .attr("width", x.rangeBand());
   }
 
   // Inspired by Lee Byron's test data generator.

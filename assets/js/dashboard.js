@@ -59,8 +59,22 @@ function processData(rawData, m) {
 		instaValid = true;
 	}
 
+	var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+	  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+	];
+	parsedData["date"] = [];
 	var mInt = parseInt(m);
 	var today = new Date();
+	var currDateGlobal = new Date(today.getTime());
+	currDateGlobal.setDate(currDateGlobal.getDate()-mInt+1);
+	for(var i=0;i<mInt;i++){
+		var dd = currDateGlobal.getDate();
+		var mm = currDateGlobal.getMonth(); //January is 0!
+		var ddmm = dd+'-'+monthNames[mm];
+
+		parsedData["date"][i] = ddmm;
+		currDateGlobal.setDate(currDateGlobal.getDate() + 1);
+	}
 
 	if (fbValid) {
 		var fbUserLikes = JSON.parse(responseArray["facebook"]["userLikes"]);
