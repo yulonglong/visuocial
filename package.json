@@ -2,7 +2,7 @@
   "name": "visuocial",
   "private": true,
   "version": "0.0.0",
-  "description": "a Sails application",
+  "description": "Visualization of Social Media Activities",
   "keywords": [],
   "dependencies": {
     "async": "^1.5.2",
@@ -31,10 +31,10 @@
     "twit": "^2.2.3"
   },
   "scripts": {
-    "debug": "node debug app.js",
-    "start": "node app.js"
+    "debug": "node debug server.js",
+    "start": "node server.js"
   },
-  "main": "app.js",
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/vagrant/visuocial.git"
