@@ -105,16 +105,23 @@
       </div>
 
       <div class="row">
-         <div id="radio-range-div" class="col-six tab-full">
+         <div id="radio-range-div" class="col-four tab-full">
             <h5>Time-range</h5>
             <form>
-               <input id="radio-2-weeks" class="radio-range" type="radio" name="range" value="14" checked>2 weeks</input><br>
-               <input id="radio-4-weeks" class="radio-range" type="radio" name="range" value="28" >4 weeks</input><br>
-               <input id="radio-8-weeks" class="radio-range" type="radio" name="range" value="56" >8 weeks</input><br>
+               <input id="radio-2-weeks" class="radio-range" type="radio" name="range" value="14" checked> 2 weeks</input><br>
+               <input id="radio-4-weeks" class="radio-range" type="radio" name="range" value="28" > 4 weeks</input><br>
+               <input id="radio-8-weeks" class="radio-range" type="radio" name="range" value="56" > 8 weeks</input><br>
             </form>
          </div>
-         <div class="col-six tab-full">
+         <div id="visualization-type-div" class="col-four tab-full">
             <h5>Visualization type</h5>
+            <form>
+               <input type="radio" name="visualization" value="stackedBars" checked> Stacked Bars</input><br>
+               <input type="radio" name="visualization" value="wordCloud"> Word Cloud</input>
+            </form>
+         </div>
+         <div class="col-four tab-full">
+            <h5>Bar type</h5>
             <form>
                <input type="radio" name="mode" value="grouped"> Grouped</input><br>
                <input type="radio" name="mode" value="stacked" checked> Stacked</input>
@@ -299,6 +306,7 @@
 
    <script src="js/d3js/common.js"></script>
    <script src="js/d3js/stacked-to-grouped_bars.js"></script>
+   <script src="js/d3js/word-cloud.js"></script>
    <script src="js/dashboard.js"></script>
 
 </body>

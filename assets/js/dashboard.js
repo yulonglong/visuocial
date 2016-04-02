@@ -24,6 +24,12 @@ $("#radio-range-div input[name=range]").click(function(){
     $('input[name=mode][value=stacked]').attr('checked', true);
 });
 
+$("#visualization-type-div input[name=visualization]").click(function(){
+    var m = ($('input:radio[name=range]:checked').val());
+    processData(cachedRawData, m);
+    $('input[name=mode][value=stacked]').attr('checked', true);
+});
+
 var cachedRawData;
 
 function processData(rawData, m) {
@@ -90,6 +96,9 @@ function processData(rawData, m) {
 
 	parsedData["indexMapping"] = [];
 
+	// For word Cloud
+	parsedData["words"] = [];
+
 	if (fbValid) {
 		var fbUserLikes = JSON.parse(responseArray["facebook"]["userLikes"]);
 		var fbRecentPosts = JSON.parse(responseArray["facebook"]["recentPosts"]);
@@ -101,7 +110,10 @@ function processData(rawData, m) {
 			var createdDate = new Date(parseDate(fbUserLikes["data"][i]["created_time"]));
 			if (createdDate < earliestDate) break;
 
-			$("#fb_likes_tbody").append("<tr><td>"+fbUserLikes["data"][i]["name"]+"</td><td>"+createdTime+"</td></tr>");
+			var pageName = fbUserLikes["data"][i]["name"];
+			parsedData["words"].push(pageName);
+
+			$("#fb_likes_tbody").append("<tr><td>"+pageName+"</td><td>"+createdTime+"</td></tr>");
 		}
 
 		$("#fb_posts_tbody").html("");
@@ -111,7 +123,13 @@ function processData(rawData, m) {
 			var createdDate = new Date(parseDate(fbRecentPosts["data"][i]["created_time"]));
 			if (createdDate < earliestDate) break;
 
-			$("#fb_posts_tbody").append("<tr><td>"+fbRecentPosts["data"][i]["message"]+"</td><td>"+fbRecentPosts["data"][i]["story"]+"</td><td>"+createdTime+"</td></tr>");
+			var currMessage = fbRecentPosts["data"][i]["message"];
+			if (currMessage !== undefined)	parsedData["words"].push(currMessage);
+
+			var currStory = fbRecentPosts["data"][i]["story"];
+			if (currStory !== undefined) parsedData["words"].push(currStory);
+
+			$("#fb_posts_tbody").append("<tr><td>"+currMessage+"</td><td>"+currStory+"</td><td>"+createdTime+"</td></tr>");
 		}
 
 		// $("#raw_content").append(JSON.stringify(fbUserLikes)+"<br>");
@@ -179,7 +197,10 @@ function processData(rawData, m) {
 			var createdDate = new Date(parseDate(twitterRecentWeets["recentTweets"][i]["created_at"]));
 			if (createdDate < earliestDate) break;
 
-			$("#twitter_posts_tbody").append("<tr><td>"+twitterRecentWeets["recentTweets"][i]["text"]+"</td><td>"+createdTime+"</td></tr>");
+			var currTweet = twitterRecentWeets["recentTweets"][i]["text"];
+			if (currTweet !== undefined) parsedData["words"].push(currTweet);
+
+			$("#twitter_posts_tbody").append("<tr><td>"+currTweet+"</td><td>"+createdTime+"</td></tr>");
 		}
 		// $("#raw_content").append(JSON.stringify(twitterRecentWeets)+"<br>");
 
@@ -229,9 +250,15 @@ function processData(rawData, m) {
 		$("#instagram_posts_tbody").html("");
 		for (var i=0;i<instaRecentPublish["data"].length;i++) {
 			var currCaption = instaRecentPublish["data"][i]["caption"];
-			if (currCaption == null) currCaption = "N.A.";
-			else currCaption = currCaption["text"];
+			if (currCaption == null) {
+				currCaption = "N.A.";
+			}
+			else {
+				currCaption = currCaption["text"];
+				parsedData["words"].push(currCaption);
+			}
 			var createdTime = parseDate(parseInt(instaRecentPublish["data"][i]["created_time"])*1000);
+
 
 			// Check whether the created date is in the selected range, if not dont show
 			var createdDate = new Date(parseDate(parseInt(instaRecentPublish["data"][i]["created_time"])*1000));
@@ -243,8 +270,13 @@ function processData(rawData, m) {
 		$("#instagram_likes_tbody").html("");
 		for (var i=0;i<instaRecentLiked["data"].length;i++) {
 			var currCaption = instaRecentLiked["data"][i]["caption"];
-			if (currCaption == null) currCaption = "N.A.";
-			else currCaption = currCaption["text"];
+			if (currCaption == null) {
+				currCaption = "N.A.";
+			}
+			else {
+				currCaption = currCaption["text"];
+				parsedData["words"].push(currCaption);
+			}
 			var createdTime = parseDate(parseInt(instaRecentLiked["data"][i]["created_time"])*1000);
 
 			// Check whether the created date is in the selected range, if not dont show
@@ -310,8 +342,13 @@ function processData(rawData, m) {
 	}
 
 
+	var visualizationType = ($('input:radio[name=visualization]:checked').val());
+
 	$(".d3canvas").html("");
-	stackedToGroupedBars(n, m, parsedData);
+	if (visualizationType == "stackedBars")
+		stackedToGroupedBars(n, m, parsedData);
+	else if (visualizationType == "wordCloud")
+		wordCloud(parsedData);
 }
 
 
