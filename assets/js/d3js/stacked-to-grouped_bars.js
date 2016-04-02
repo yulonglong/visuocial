@@ -1,8 +1,12 @@
-function stackedToGroupedBars(m) {
+function stackedToGroupedBars(m, parsedData) {
   var n = 3; // number of layers
   // var  m = 45; // number of samples per layer
   var  stack = d3.layout.stack(),
-    layers = stack(d3.range(n).map(function(currN) { return bumpLayer(currN,m); })),
+    layers = stack(d3.range(n).map(function(currN) { 
+      if (currN == 0) return parsedData["facebook"];
+      if (currN == 1) return parsedData["twitter"];
+      if (currN == 2) return parsedData["instagram"];
+    })),
     yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
     yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 

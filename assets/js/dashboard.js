@@ -33,6 +33,7 @@ function processData(rawData, m) {
 	var fbValid = false;
 	var twitterValid = false;
 	var instaValid = false;
+	var parsedData = [];
 
 	if (jQuery.isEmptyObject(responseArray["facebook"])) {
 		$("#link_fb").html("<i class=\"fa fa-minus-square\"></i> Not Linked");
@@ -58,6 +59,8 @@ function processData(rawData, m) {
 		instaValid = true;
 	}
 
+	var mInt = parseInt(m);
+	var today = new Date();
 
 	if (fbValid) {
 		var fbUserLikes = JSON.parse(responseArray["facebook"]["userLikes"]);
@@ -73,6 +76,55 @@ function processData(rawData, m) {
 		}
 		// $("#raw_content").append(JSON.stringify(fbUserLikes)+"<br>");
 		// $("#raw_content").append(JSON.stringify(fbRecentPosts)+"<br>");
+
+		// Process Data - Begin
+
+		var fbParsedData =[];
+		var currDate = new Date(today.getTime());
+		currDate.setDate(currDate.getDate()-mInt+1);
+
+		for(var i=0;i<mInt;i++){
+			var dd = currDate.getDate();
+			var mm = currDate.getMonth()+1; //January is 0!
+			var yy = currDate.getFullYear();
+			var ddmm = dd+'/'+mm;
+			var fullDate = dd+'/'+mm+'/'+yy;
+
+			fbParsedData[i] = {"date": fullDate, "freq": 0, "x": i, "y": 0}
+			currDate.setDate(currDate.getDate() + 1);
+		}
+
+		for (var i=0;i<fbRecentPosts["data"].length;i++) {
+			var fbCurrDate = new Date(fbRecentPosts["data"][i]["created_time"]);
+			var dd = fbCurrDate.getDate();
+			var mm = fbCurrDate.getMonth()+1; //January is 0!
+			var yy = fbCurrDate.getFullYear();
+			var formattedFbCurrDate = dd+'/'+mm+'/'+yy;
+			for(var j=0;j<mInt;j++){
+				if (fbParsedData[j]["date"] == formattedFbCurrDate) {
+					fbParsedData[j]["freq"] += 1;
+					fbParsedData[j]["y"] += 1;
+				}
+			}
+		}
+		for (var i=0;i<fbUserLikes["data"].length;i++) {
+			var fbCurrDate = new Date(fbUserLikes["data"][i]["created_time"]);
+			var dd = fbCurrDate.getDate();
+			var mm = fbCurrDate.getMonth()+1; //January is 0!
+			var yy = fbCurrDate.getFullYear();
+			var formattedFbCurrDate = dd+'/'+mm+'/'+yy;
+			for(var j=0;j<mInt;j++){
+				if (fbParsedData[j]["date"] == formattedFbCurrDate) {
+					fbParsedData[j]["freq"] += 1;
+					fbParsedData[j]["y"] += 1;
+				}
+			}
+		}
+
+		parsedData["facebook"] = fbParsedData;
+
+		$("#raw_content").append("FB<br>" + JSON.stringify(fbParsedData)+"<br>");
+		// Process Data - End
 	}
 
 	if (twitterValid) {
@@ -83,6 +135,42 @@ function processData(rawData, m) {
 			$("#twitter_content").append("<li>"+twitterRecentWeets["recentTweets"][i]["text"]+"<br>"+twitterRecentWeets["recentTweets"][i]["created_at"]+"</li>");
 		}
 		// $("#raw_content").append(JSON.stringify(twitterRecentWeets)+"<br>");
+
+		// Process Data - Begin
+
+		var twitterParsedData =[];
+		var currDate = new Date(today.getTime());
+		currDate.setDate(currDate.getDate()-mInt+1);
+
+		for(var i=0;i<mInt;i++){
+			var dd = currDate.getDate();
+			var mm = currDate.getMonth()+1; //January is 0!
+			var yy = currDate.getFullYear();
+			var ddmm = dd+'/'+mm;
+			var fullDate = dd+'/'+mm+'/'+yy;
+
+			twitterParsedData[i] = {"date": fullDate, "freq": 0, "x": i, "y": 0}
+			currDate.setDate(currDate.getDate() + 1);
+		}
+
+		for (var i=0;i<twitterRecentWeets["recentTweets"].length;i++) {
+			var twitterCurrDate = new Date(twitterRecentWeets["recentTweets"][i]["created_at"]);
+			var dd = twitterCurrDate.getDate();
+			var mm = twitterCurrDate.getMonth()+1; //January is 0!
+			var yy = twitterCurrDate.getFullYear();
+			var formattedTwitterCurrDate = dd+'/'+mm+'/'+yy;
+			for(var j=0;j<mInt;j++){
+				if (twitterParsedData[j]["date"] == formattedTwitterCurrDate) {
+					twitterParsedData[j]["freq"] += 1;
+					twitterParsedData[j]["y"] += 1;
+				}
+			}
+		}
+
+		parsedData["twitter"] = twitterParsedData;
+
+		$("#raw_content").append("Twitter<br>" + JSON.stringify(twitterParsedData)+"<br>");
+		// Process Data - End
 	}
 	
 	if (instaValid) {
@@ -99,11 +187,61 @@ function processData(rawData, m) {
 		}
 		// $("#raw_content").append(JSON.stringify(instaRecentPublish)+"<br>");
 		// $("#raw_content").append(JSON.stringify(instaRecentLiked)+"<br>");
+
+
+		// Process Data - Begin
+
+		var instaParsedData =[];
+		var currDate = new Date(today.getTime());
+		currDate.setDate(currDate.getDate()-mInt+1);
+
+		for(var i=0;i<mInt;i++){
+			var dd = currDate.getDate();
+			var mm = currDate.getMonth()+1; //January is 0!
+			var yy = currDate.getFullYear();
+			var ddmm = dd+'/'+mm;
+			var fullDate = dd+'/'+mm+'/'+yy;
+
+			instaParsedData[i] = {"date": fullDate, "freq": 0, "x": i, "y": 0}
+			currDate.setDate(currDate.getDate() + 1);
+		}
+
+		for (var i=0;i<instaRecentPublish["data"].length;i++) {
+			var instaCurrDate = new Date(parseInt(instaRecentPublish["data"][i]["created_time"])*1000);
+			var dd = instaCurrDate.getDate();
+			var mm = instaCurrDate.getMonth()+1; //January is 0!
+			var yy = instaCurrDate.getFullYear();
+			var formattedInstaCurrDate = dd+'/'+mm+'/'+yy;
+			for(var j=0;j<mInt;j++){
+				if (instaParsedData[j]["date"] == formattedInstaCurrDate) {
+					instaParsedData[j]["freq"] += 1;
+					instaParsedData[j]["y"] += 1;
+				}
+			}
+		}
+		for (var i=0;i<instaRecentLiked["data"].length;i++) {
+			var instaCurrDate = new Date(parseInt(instaRecentLiked["data"][i]["created_time"])*1000);
+			var dd = instaCurrDate.getDate();
+			var mm = instaCurrDate.getMonth()+1; //January is 0!
+			var yy = instaCurrDate.getFullYear();
+			var formattedInstaCurrDate = dd+'/'+mm+'/'+yy;
+			for(var j=0;j<mInt;j++){
+				if (instaParsedData[j]["date"] == formattedInstaCurrDate) {
+					instaParsedData[j]["freq"] += 1;
+					instaParsedData[j]["y"] += 1;
+				}
+			}
+		}
+
+		parsedData["instagram"] = instaParsedData;
+
+		$("#raw_content").append("Insta<br>" + JSON.stringify(instaParsedData)+"<br>");
+		// Process Data - End
 	}
 
 
 	$(".d3canvas").html("");
-	stackedToGroupedBars(m);
+	stackedToGroupedBars(m, parsedData);
 }
 
 
