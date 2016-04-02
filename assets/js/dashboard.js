@@ -34,6 +34,8 @@ function processData(rawData, m) {
 	var fbValid = false;
 	var twitterValid = false;
 	var instaValid = false;
+	var n = 0;
+	var nIndex=0;
 	var parsedData = [];
 
 	if (jQuery.isEmptyObject(responseArray["facebook"])) {
@@ -44,6 +46,7 @@ function processData(rawData, m) {
 		$("#link_fb_button").removeAttr("href");
 		$("#link_fb_button").addClass("button-disabled");
 		fbValid = true;
+		n++;
 	}
 
 	if (jQuery.isEmptyObject(responseArray["twitter"])) {
@@ -54,6 +57,7 @@ function processData(rawData, m) {
 		$("#link_twitter_button").removeAttr("href");
 		$("#link_twitter_button").addClass("button-disabled");
 		twitterValid = true;
+		n++;
 	}
 
 	if (jQuery.isEmptyObject(responseArray["instagram"])) {
@@ -64,6 +68,7 @@ function processData(rawData, m) {
 		$("#link_insta_button").removeAttr("href");
 		$("#link_insta_button").addClass("button-disabled");
 		instaValid = true;
+		n++;
 	}
 
 	
@@ -154,7 +159,7 @@ function processData(rawData, m) {
 			}
 		}
 
-		parsedData["facebook"] = fbParsedData;
+		parsedData[nIndex++] = fbParsedData;
 
 		// $("#raw_content").append("FB<br>" + JSON.stringify(fbParsedData)+"<br>");
 		// Process Data - End
@@ -205,7 +210,7 @@ function processData(rawData, m) {
 			}
 		}
 
-		parsedData["twitter"] = twitterParsedData;
+		parsedData[nIndex++] = twitterParsedData;
 
 		// $("#raw_content").append("Twitter<br>" + JSON.stringify(twitterParsedData)+"<br>");
 		// Process Data - End
@@ -290,7 +295,7 @@ function processData(rawData, m) {
 			}
 		}
 
-		parsedData["instagram"] = instaParsedData;
+		parsedData[nIndex++] = instaParsedData;
 
 		// $("#raw_content").append("Insta<br>" + JSON.stringify(instaParsedData)+"<br>");
 		// Process Data - End
@@ -298,7 +303,7 @@ function processData(rawData, m) {
 
 
 	$(".d3canvas").html("");
-	stackedToGroupedBars(m, parsedData);
+	stackedToGroupedBars(n, m, parsedData);
 }
 
 
