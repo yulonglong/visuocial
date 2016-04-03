@@ -117,12 +117,12 @@ function stackedToGroupedBars(n, m, parsedData) {
 
   d3.selectAll("input").on("change", change);
 
-  // var timeout = setTimeout(function() {
-  // d3.select("input[value=\"grouped\"]").property("checked", true).each(change);
-  // }, 2000);
+  var timeout = setTimeout(function() {
+  d3.select("input[value=\"grouped\"]").property("checked", true).each(change);
+  }, 2000);
 
   function change() {
-  // clearTimeout(timeout);
+  clearTimeout(timeout);
   if (this.value === "grouped") transitionGrouped();
   else transitionStacked();
   }
