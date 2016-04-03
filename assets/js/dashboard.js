@@ -99,6 +99,9 @@ function processData(rawData, m) {
 	// For word Cloud
 	parsedData["words"] = [];
 
+	// For Donut
+	parsedData["cumulativeFreq"] = [];
+
 	if (fbValid) {
 		var fbUserLikes = JSON.parse(responseArray["facebook"]["userLikes"]);
 		var fbRecentPosts = JSON.parse(responseArray["facebook"]["recentPosts"]);
@@ -141,6 +144,7 @@ function processData(rawData, m) {
 
 		// Process Data - Begin
 
+		var cumulativeFreq = 0;
 		var fbParsedData =[];
 		var currDate = new Date(today.getTime());
 		currDate.setDate(currDate.getDate()-mInt+1);
@@ -166,6 +170,7 @@ function processData(rawData, m) {
 				if (fbParsedData[j]["date"] == formattedFbCurrDate) {
 					fbParsedData[j]["freq"] += 1;
 					fbParsedData[j]["y"] += 1;
+					cumulativeFreq += 1
 				}
 			}
 		}
@@ -179,11 +184,13 @@ function processData(rawData, m) {
 				if (fbParsedData[j]["date"] == formattedFbCurrDate) {
 					fbParsedData[j]["freq"] += 1;
 					fbParsedData[j]["y"] += 1;
+					cumulativeFreq += 1
 				}
 			}
 		}
 
 		parsedData[nIndex] = fbParsedData;
+		parsedData["cumulativeFreq"][nIndex] = cumulativeFreq;
 		parsedData["indexMapping"][nIndex] = "Facebook";
 		nIndex++;
 
@@ -215,6 +222,7 @@ function processData(rawData, m) {
 
 		// Process Data - Begin
 
+		var cumulativeFreq = 0;
 		var twitterParsedData =[];
 		var currDate = new Date(today.getTime());
 		currDate.setDate(currDate.getDate()-mInt+1);
@@ -240,11 +248,13 @@ function processData(rawData, m) {
 				if (twitterParsedData[j]["date"] == formattedTwitterCurrDate) {
 					twitterParsedData[j]["freq"] += 1;
 					twitterParsedData[j]["y"] += 1;
+					cumulativeFreq += 1;
 				}
 			}
 		}
 
 		parsedData[nIndex] = twitterParsedData;
+		parsedData["cumulativeFreq"][nIndex] = cumulativeFreq;
 		parsedData["indexMapping"][nIndex] = "Twitter";
 		nIndex++;
 
@@ -308,6 +318,7 @@ function processData(rawData, m) {
 
 		// Process Data - Begin
 
+		var cumulativeFreq = 0;
 		var instaParsedData =[];
 		var currDate = new Date(today.getTime());
 		currDate.setDate(currDate.getDate()-mInt+1);
@@ -333,6 +344,7 @@ function processData(rawData, m) {
 				if (instaParsedData[j]["date"] == formattedInstaCurrDate) {
 					instaParsedData[j]["freq"] += 1;
 					instaParsedData[j]["y"] += 1;
+					cumulativeFreq += 1;
 				}
 			}
 		}
@@ -346,11 +358,13 @@ function processData(rawData, m) {
 				if (instaParsedData[j]["date"] == formattedInstaCurrDate) {
 					instaParsedData[j]["freq"] += 1;
 					instaParsedData[j]["y"] += 1;
+					cumulativeFreq += 1;
 				}
 			}
 		}
 
 		parsedData[nIndex] = instaParsedData;
+		parsedData["cumulativeFreq"][nIndex] = cumulativeFreq;
 		parsedData["indexMapping"][nIndex] = "Instagram";
 		nIndex++;
 
@@ -372,6 +386,8 @@ function processData(rawData, m) {
 		wordCloud(parsedData);
 	else if (visualizationType == "graph")
 		graph(n, m, parsedData);
+	else if (visualizationType == "donut")
+		donut(n, parsedData);
 }
 
 
