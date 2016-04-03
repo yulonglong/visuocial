@@ -24,3 +24,6 @@ sqlserver: {
 	  encrypt: true   // use this for Azure databases 
 	}
 }
+
+5. Go to `visuocial\node_modules\sails-auth\dist\api\controllers\AuthController.js`
+Go to line 94, remove the if statement and add `req.query.next = "/dashboard";` to redirect any login to dashboard
