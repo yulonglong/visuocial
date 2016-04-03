@@ -345,8 +345,12 @@ function processData(rawData, m) {
 	var visualizationType = ($('input:radio[name=visualization]:checked').val());
 
 	$(".d3canvas").html("");
-	if (visualizationType == "stackedBars")
+	$('#bar-type-div').hide();
+
+	if (visualizationType == "stackedBars") {
 		stackedToGroupedBars(n, m, parsedData);
+		$('#bar-type-div').show();
+	}
 	else if (visualizationType == "wordCloud")
 		wordCloud(parsedData);
 }
