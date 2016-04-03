@@ -9,7 +9,7 @@ module.exports = {
 	dashboard: function (req, res) {
 		// if not authenticated, show login page
 		if (!req.session.authenticated) {
-			return res.sendfile('assets/login.html');
+			return res.redirect('/login');
 		} else {
 			return res.sendfile('assets/dashboard.html');
 		}
@@ -19,7 +19,7 @@ module.exports = {
 		if (!req.session.authenticated) {
 			return res.sendfile('assets/login.html');
 		} else {
-			return res.sendfile('assets/dashboard.html');
+			return res.redirect('dashboard');
 		}
 	}
 };
