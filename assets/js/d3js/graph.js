@@ -98,7 +98,7 @@ var guideline = svg.append('line')
 /* Create a shared transition for anything we're animating */
 var t = svg.transition()
 .delay(50)
-.duration(3000)
+.duration(1000)
 .ease('linear')
 .each('end', function() {
   d3.select('line.guide')
