@@ -20,7 +20,7 @@ function wordCloud(parsedData) {
   var wordArray = wordFrequency(longWord).sort(function(a,b){return a.size<b.size});
 
 
-  var fill = d3.scale.category20c();
+  var fill = d3.scale.category20();
 
   var maxSize = 0;
   for(var i=0;i<wordArray.length;i++){

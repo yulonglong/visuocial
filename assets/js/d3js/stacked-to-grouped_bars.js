@@ -8,7 +8,7 @@ function stackedToGroupedBars(n, m, parsedData) {
     yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
     yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
-  var colorArray = ["#aad","#6b6ecf","#556"];
+  var color = d3.scale.category20();
 
   var margin = {top: 40, right: 10, bottom: 50, left: 50},
     width = 960 - margin.left - margin.right,
@@ -45,7 +45,7 @@ function stackedToGroupedBars(n, m, parsedData) {
     .data(layers)
   .enter().append("g")
     .attr("class", "layer")
-    .style("fill", function(d, i) { return colorArray[i]; });
+    .style("fill", function(d, i) { return color(i); });
 
   var rect = layer.selectAll("rect")
     .data(function(d) { return d; })
@@ -103,7 +103,7 @@ function stackedToGroupedBars(n, m, parsedData) {
       .attr("x", width - 18)
       .attr("width", 18)
       .attr("height", 18)
-      .style("fill", function(d) { return colorArray[d]; });
+      .style("fill", function(d, i) { return color(n-1-i); });
 
   legend.append("text")
       .attr("x", width - 24)

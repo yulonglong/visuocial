@@ -75,7 +75,7 @@ function render(){
       .attr("x", width - 18)
       .attr("width", 18)
       .attr("height", 18)
-      .style("fill", function(d, i) { return color(i); });
+      .style("fill", function(d, i) { return color(n-1-i); });
 
   legend.append("text")
       .attr("x", width - 24)

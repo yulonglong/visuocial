@@ -1,4 +1,5 @@
 function graph(n,m,parsedData) {
+  var color = d3.scale.category20();
 	
 // var data = [
   // [new Date(2001, 0, 1), 1],
@@ -21,8 +22,6 @@ for(var nIndex=0;nIndex<n;nIndex++){
 
 var firstDate = parsedData[0][0]["dateObject"].setHours(0,0,0,0);
 var lastDate = parsedData[0][parsedData[0].length-1]["dateObject"].setHours(0,0,0,0);
-
-var colorArray = ["#aad","#6b6ecf","#556"];
 
 
 var margin = {top: 20, right: 30, bottom: 30, left: 40},
@@ -72,7 +71,7 @@ svg.selectAll(".line")
   .enter().append("path")
     .attr("class", "line")
     .attr("d", line)
-    .attr('stroke', function(d, i) { return colorArray[i]; });
+    .attr('stroke', function(d, i) { return color(i); });
 
 // Animation begin
 /* Add 'curtain' rectangle to hide entire graph */
@@ -115,24 +114,23 @@ t.select('line.guide')
 
 // Colour Legend - begin
 var legend = svg.selectAll(".legend")
-  .data(d3.range(n).reverse())
-.enter().append("g")
-  .attr("class", "legend")
-  .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+    .data(d3.range(n).reverse())
+  .enter().append("g")
+    .attr("class", "legend")
+    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 legend.append("rect")
-  .attr("x", width - 18)
-  .attr("width", 18)
-  .attr("height", 18)
-  .style("fill", function(d) { return colorArray[d]; });
+    .attr("x", width - 18)
+    .attr("width", 18)
+    .attr("height", 18)
+    .style("fill", function(d, i) { return color(n-1-i); });
 
 legend.append("text")
-  .attr("x", width - 24)
-  .attr("y", 9)
-  .attr("dy", ".35em")
-  .style("text-anchor", "end")
-  .text(function(d) { return parsedData["indexMapping"][d]; });
+    .attr("x", width - 24)
+    .attr("y", 9)
+    .attr("dy", ".35em")
+    .style("text-anchor", "end")
+    .text(function(d) { return parsedData["indexMapping"][d]; });
 
 // Colour Legend - end
-
 }
