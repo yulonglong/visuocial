@@ -74,6 +74,44 @@ svg.selectAll(".line")
     .attr("d", line)
     .attr('stroke', function(d, i) { return colorArray[i]; });
 
+// Animation begin
+/* Add 'curtain' rectangle to hide entire graph */
+var curtain = svg.append('rect')
+.attr('x', -1 * width)
+.attr('y', -1 * height)
+.attr('height', height)
+.attr('width', width)
+.attr('class', 'curtain')
+.attr('transform', 'rotate(180)')
+.style('fill', '#ffffff')
+
+/* Optionally add a guideline */
+var guideline = svg.append('line')
+.attr('stroke', '#333')
+.attr('stroke-width', 0)
+.attr('class', 'guide')
+.attr('x1', 1)
+.attr('y1', 1)
+.attr('x2', 1)
+.attr('y2', height)
+
+/* Create a shared transition for anything we're animating */
+var t = svg.transition()
+.delay(50)
+.duration(3000)
+.ease('linear')
+.each('end', function() {
+  d3.select('line.guide')
+    .transition()
+    .style('opacity', 0)
+    .remove()
+});
+
+t.select('rect.curtain')
+.attr('width', 0);
+t.select('line.guide')
+.attr('transform', 'translate(' + width + ', 0)')
+// Animation end
 
 // Colour Legend - begin
 var legend = svg.selectAll(".legend")
