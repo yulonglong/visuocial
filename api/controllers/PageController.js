@@ -19,8 +19,17 @@ module.exports = {
 		if (!req.session.authenticated) {
 			return res.sendfile('assets/login.html');
 		} else {
-			return res.redirect('dashboard');
+			return res.redirect('/dashboard');
 		}
+	},
+	dashboardHTML: function (req, res) {
+		res.redirect('/dashboard');
+	},
+	loginHTML: function (req, res) {
+		res.redirect('/login');
+	},
+	indexHTML: function (req, res) {
+		res.redirect('/');
 	}
 };
 
