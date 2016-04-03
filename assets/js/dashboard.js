@@ -113,7 +113,9 @@ function processData(rawData, m) {
 			var pageName = fbUserLikes["data"][i]["name"];
 			parsedData["words"].push(pageName);
 
-			$("#fb_likes_tbody").append("<tr><td>"+pageName+"</td><td>"+createdTime+"</td></tr>");
+			var pageId = fbUserLikes["data"][i]["id"];
+
+			$("#fb_likes_tbody").append("<tr><td><a class=\"fa fa-facebook\" href=\"http://facebook.com/"+pageId+"\">&nbsp</a>"+pageName+"</td><td>"+createdTime+"</td></tr>");
 		}
 
 		$("#fb_posts_tbody").html("");
@@ -129,7 +131,9 @@ function processData(rawData, m) {
 			var currStory = fbRecentPosts["data"][i]["story"];
 			if (currStory !== undefined) parsedData["words"].push(currStory);
 
-			$("#fb_posts_tbody").append("<tr><td>"+currMessage+"</td><td>"+currStory+"</td><td>"+createdTime+"</td></tr>");
+			var pageId = fbRecentPosts["data"][i]["id"];
+
+			$("#fb_posts_tbody").append("<tr><td><a class=\"fa fa-facebook\" href=\"http://facebook.com/"+pageId+"\">&nbsp</a>"+currMessage+"</td><td>"+currStory+"</td><td>"+createdTime+"</td></tr>");
 		}
 
 		// $("#raw_content").append(JSON.stringify(fbUserLikes)+"<br>");
@@ -200,7 +204,12 @@ function processData(rawData, m) {
 			var currTweet = twitterRecentWeets["recentTweets"][i]["text"];
 			if (currTweet !== undefined) parsedData["words"].push(currTweet);
 
-			$("#twitter_posts_tbody").append("<tr><td>"+currTweet+"</td><td>"+createdTime+"</td></tr>");
+			var id = twitterRecentWeets["recentTweets"][i]["id_str"];
+			var username = twitterRecentWeets["recentTweets"][i]["user"]["screen_name"];
+
+			$("#twitter_posts_tbody").append("<tr><td>"+
+				"<a class=\"fa fa-twitter\" href=\"http://twitter.com/"+username+"/status/"+id+"\">&nbsp</a>"
+				+currTweet+"</td><td>"+createdTime+"</td></tr>");
 		}
 		// $("#raw_content").append(JSON.stringify(twitterRecentWeets)+"<br>");
 
@@ -264,7 +273,11 @@ function processData(rawData, m) {
 			var createdDate = new Date(parseDate(parseInt(instaRecentPublish["data"][i]["created_time"])*1000));
 			if (createdDate < earliestDate) break;
 
-			$("#instagram_posts_tbody").append("<tr><td>"+currCaption+"</td><td>"+createdTime+"</td></tr>");
+			var link = instaRecentPublish["data"][i]["link"];
+
+			$("#instagram_posts_tbody").append("<tr><td>"+
+				"<a class=\"fa fa-instagram\" href=\""+link+"\">&nbsp</a>"
+				+currCaption+"</td><td>"+createdTime+"</td></tr>");
 		}
 
 		$("#instagram_likes_tbody").html("");
@@ -283,7 +296,11 @@ function processData(rawData, m) {
 			var createdDate = new Date(parseDate(parseInt(instaRecentLiked["data"][i]["created_time"])*1000));
 			if (createdDate < earliestDate) break;
 
-			$("#instagram_likes_tbody").append("<tr><td>"+currCaption+"</td><td>"+createdTime+"</td></tr>");
+			var link = instaRecentLiked["data"][i]["link"];
+
+			$("#instagram_likes_tbody").append("<tr><td>"+
+				"<a class=\"fa fa-instagram\" href=\""+link+"\">&nbsp</a>"
+				+currCaption+"</td><td>"+createdTime+"</td></tr>");
 		}
 		// $("#raw_content").append(JSON.stringify(instaRecentPublish)+"<br>");
 		// $("#raw_content").append(JSON.stringify(instaRecentLiked)+"<br>");
