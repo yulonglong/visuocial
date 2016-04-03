@@ -30,6 +30,15 @@ function wordCloud(parsedData) {
   }
   var multiplier = 75/maxSize;
 
+
+
+  var svg = d3.select('#d3canvas').append("svg")
+      .attr("width", 960)
+      .attr("height", 500)
+      .call(responsivefy)
+    .append("g")
+      .attr("transform", "translate(480,250)");
+
   d3.layout.cloud().size([960, 500])
       .words(wordArray)
       .rotate(function() { return ~~(Math.random() * 2) * 90; })
@@ -40,23 +49,32 @@ function wordCloud(parsedData) {
       .start();
 
   function draw(words) {
-    d3.select("#d3canvas").append("svg")
-        .attr("width", 960)
-        .attr("height", 500)
-        .call(responsivefy)
-      .append("g")
-        .attr("transform", "translate(480,250)")
-      .selectAll("text")
-        .data(words)
-      .enter().append("text")
+      var cloud =  svg.selectAll("text")
+        .data(words, function(d) { return d.text; });
+
+      cloud.enter()
+        .append("text")
         .style("font-size", function(d) { return d.size + "px"; })
         .style("font-family", "Impact") 
         .style("fill", function(d, i) { return fill(i); })
         .attr("text-anchor", "middle")
-        .attr("transform", function(d) {
-          return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-        })
         .text(function(d) { return d.text; });
+
+      cloud.transition()
+        .duration(600)
+        .style("font-size", function(d) { return d.size + "px"; })
+        .attr("transform", function(d) {
+            return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+        })
+        .style("fill-opacity", 1);
+
+
+      cloud.exit()
+        .transition()
+            .duration(200)
+            .style('fill-opacity', 1e-6)
+            .attr('font-size', 1)
+            .remove();
         
   }
 }
