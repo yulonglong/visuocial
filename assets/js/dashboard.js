@@ -148,7 +148,7 @@ function processData(rawData, m) {
 			var ddmm = dd+'/'+mm;
 			var fullDate = dd+'/'+mm+'/'+yy;
 
-			fbParsedData[i] = {"date": fullDate, "freq": 0, "x": i, "y": 0}
+			fbParsedData[i] = {"date": fullDate, "dateObject": new Date(currDate), "freq": 0, "x": i, "y": 0}
 			currDate.setDate(currDate.getDate() + 1);
 		}
 
@@ -217,7 +217,7 @@ function processData(rawData, m) {
 			var ddmm = dd+'/'+mm;
 			var fullDate = dd+'/'+mm+'/'+yy;
 
-			twitterParsedData[i] = {"date": fullDate, "freq": 0, "x": i, "y": 0}
+			twitterParsedData[i] = {"date": fullDate, "dateObject": new Date(currDate), "freq": 0, "x": i, "y": 0}
 			currDate.setDate(currDate.getDate() + 1);
 		}
 
@@ -302,7 +302,7 @@ function processData(rawData, m) {
 			var ddmm = dd+'/'+mm;
 			var fullDate = dd+'/'+mm+'/'+yy;
 
-			instaParsedData[i] = {"date": fullDate, "freq": 0, "x": i, "y": 0}
+			instaParsedData[i] = {"date": fullDate, "dateObject": new Date(currDate), "freq": 0, "x": i, "y": 0}
 			currDate.setDate(currDate.getDate() + 1);
 		}
 
@@ -353,6 +353,8 @@ function processData(rawData, m) {
 	}
 	else if (visualizationType == "wordCloud")
 		wordCloud(parsedData);
+	else if (visualizationType == "graph")
+		graph(n, m, parsedData);
 }
 
 

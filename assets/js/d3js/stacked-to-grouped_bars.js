@@ -8,7 +8,7 @@ function stackedToGroupedBars(n, m, parsedData) {
     yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
     yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
-  var colorArray = ["#aad","#828297","#556"];
+  var colorArray = ["#aad","#6b6ecf","#556"];
 
   var margin = {top: 40, right: 10, bottom: 50, left: 50},
     width = 960 - margin.left - margin.right,
