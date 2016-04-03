@@ -5,8 +5,8 @@ function stackedToGroupedBars(n, m, parsedData) {
     layers = stack(d3.range(n).map(function(currN) { 
       return parsedData[currN];
     })),
-    yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
-    yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
+    yGroupMax = 2 + d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
+    yStackMax = 2 + d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
   var color = d3.scale.category20();
 

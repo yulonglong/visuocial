@@ -19,6 +19,7 @@ for(var nIndex=0;nIndex<n;nIndex++){
 		}
 	}
 }
+yMax += 2;
 
 var firstDate = parsedData[0][0]["dateObject"].setHours(0,0,0,0);
 var lastDate = parsedData[0][parsedData[0].length-1]["dateObject"].setHours(0,0,0,0);
@@ -33,7 +34,7 @@ var x = d3.time.scale()
     .range([0, width]);
 
 var y = d3.scale.linear()
-    .domain([0, yMax+1])
+    .domain([0, yMax])
     .range([height, 0]);
 
 var xAxis = d3.svg.axis()
