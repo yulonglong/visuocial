@@ -92,7 +92,8 @@ function processData(rawData, m) {
 		currDateGlobal.setDate(currDateGlobal.getDate() + 1);
 	}
 	var earliestDate = new Date(today.getTime());
-	earliestDate.setDate(earliestDate.getDate()-mInt);
+	earliestDate.setDate(earliestDate.getDate()-mInt+1);
+	earliestDate.setHours(0,0,0,0);
 
 	parsedData["indexMapping"] = [];
 
