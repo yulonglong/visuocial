@@ -115,10 +115,10 @@ function stackedToGroupedBars(n, m, parsedData) {
   // Colour Legend - end
  
 
-  d3.selectAll("input").on("change", change);
+  d3.selectAll("select").on("change", change);
 
   var timeout = setTimeout(function() {
-  d3.select("input[value=\"grouped\"]").property("checked", true).each(change);
+  d3.select("option[value=\"grouped\"]").property("selected", true).each(change);
   }, 2000);
 
   function change() {

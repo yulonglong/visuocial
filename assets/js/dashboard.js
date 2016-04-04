@@ -11,23 +11,18 @@ function processUserDataAJAX() {
 	}
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			processData(xmlhttp.responseText, $('input:radio[name=range]:checked').val());
+			processData(xmlhttp.responseText, $('#time-range-selector').val());
 		}
 	};
 	xmlhttp.open("GET","/api/getUserData",true);
 	xmlhttp.send();
 }
 
-$("#radio-range-div input[name=range]").click(function(){
-    var m = ($('input:radio[name=range]:checked').val());
-    processData(cachedRawData, m);
-    $('input[name=mode][value=stacked]').attr('checked', true);
+$("#time-range-selector").change(function() {
+	processData(cachedRawData, $('#time-range-selector').val());
 });
-
-$("#visualization-type-div input[name=visualization]").click(function(){
-    var m = ($('input:radio[name=range]:checked').val());
-    processData(cachedRawData, m);
-    $('input[name=mode][value=stacked]').attr('checked', true);
+$("#visualization-type-selector").change(function() {
+	processData(cachedRawData, $('#time-range-selector').val());
 });
 
 var cachedRawData;
@@ -323,7 +318,7 @@ function processData(rawData, m) {
 		// 		"<a class=\"fa fa-instagram\" href=\""+link+"\">&nbsp</a>"
 		// 		+currCaption+"</td><td>"+createdTime+"</td></tr>");
 		// }
-		
+
 		// $("#raw_content").append(JSON.stringify(instaRecentPublish)+"<br>");
 		// $("#raw_content").append(JSON.stringify(instaRecentLiked)+"<br>");
 
@@ -391,7 +386,7 @@ function processData(rawData, m) {
 	$('#process').hide();
 	$('#styles').show();
 
-	var visualizationType = ($('input:radio[name=visualization]:checked').val());
+	var visualizationType = $('#visualization-type-selector').val();
 
 	$(".d3canvas").html("");
 	$('#bar-type-div').hide();
