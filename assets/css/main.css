@@ -337,7 +337,7 @@ table {
 	font-family: "raleway-regular", sans-serif;
 }
 th, td {
-	padding: 1.5rem 3rem;
+	padding: 0.25rem 1.0rem;
 	text-align: left;
 	border-bottom: 1px solid #E8E8E8;
 }
@@ -357,6 +357,9 @@ th:last-child, td:last-child {
 .table-responsive {
 	overflow-x: auto;
 	-webkit-overflow-scrolling: touch;
+}
+th.timestamp {
+	min-width: 170px;
 }
 
 /**
