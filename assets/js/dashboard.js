@@ -44,39 +44,33 @@ function processData(rawData, m) {
 	if (jQuery.isEmptyObject(responseArray["facebook"])) {
 		$("#link_fb").html("<i class=\"fa fa-minus-square\"></i> Not Linked");
 		$("#link_fb_button").removeClass("button-disabled");
-		$("#facebook-activities").hide();
 		$("#link_fb_button").attr("href","/auth/facebook");
 	}
 	else {
 		$("#link_fb").html("<i class=\"fa fa-check-square\"></i> Linked");
 		fbValid = true;
-		$("#facebook-activities").show();
 		n++;
 	}
 
 	if (jQuery.isEmptyObject(responseArray["twitter"])) {
 		$("#link_twitter").html("<i class=\"fa fa-minus-square\"></i> Not Linked");
-		$("#twitter-activities").hide();
 		$("#link_twitter_button").removeClass("button-disabled");
 		$("#link_twitter_button").attr("href","/auth/twitter");
 	}
 	else {
 		$("#link_twitter").html("<i class=\"fa fa-check-square\"></i> Linked");
 		twitterValid = true;
-		$("#twitter-activities").show();
 		n++;
 	}
 
 	if (jQuery.isEmptyObject(responseArray["instagram"])) {
 		$("#link_insta").html("<i class=\"fa fa-minus-square\"></i> Not Linked");
-		$("#instagram-activities").hide();
 		$("#link_insta_button").removeClass("button-disabled");
 		$("#link_insta_button").attr("href","/auth/instagram");
 	}
 	else {
 		$("#link_insta").html("<i class=\"fa fa-check-square\"></i> Linked");
 		instaValid = true;
-		$("#instagram-activities").show();
 		n++;
 	}
 
@@ -405,27 +399,6 @@ function processData(rawData, m) {
 		donut(n, parsedData);
 
 
-}
-
-
-function toggleShowFacebookActivities() {
-	if ($('#fb_table').css('display') == 'none') $('#fb_toggle_button').html("Hide");
-	else  $('#fb_toggle_button').html("Show");
-
-	$("#fb_table").toggle();
-}
-
-function toggleShowTwitterActivities() {
-	if ($('#twitter_table').css('display') == 'none') $('#twitter_toggle_button').html("Hide");
-	else  $('#twitter_toggle_button').html("Show");
-	$("#twitter_table").toggle();
-}
-
-function toggleShowInstagramActivities() {
-	if ($('#instagram_table').css('display') == 'none') $('#instagram_toggle_button').html("Hide");
-	else  $('#instagram_toggle_button').html("Show");
-
-	$("#instagram_table").toggle();
 }
 
 var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",

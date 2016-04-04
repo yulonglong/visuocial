@@ -17,6 +17,7 @@
 
  	<!-- CSS
    ================================================== -->
+   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
    <link rel="stylesheet" href="css/base.css">  
    <link rel="stylesheet" href="css/main.css">
    <link rel="stylesheet" href="css/vendor.css">  
@@ -148,9 +149,14 @@
       </div>
 
       <div class="row">
-            <div id="facebook-activities" class="col-twelve tab-full" style="display:none;">
-              <h3>Facebook Activities. <a class="button" id="fb_toggle_button" onclick="toggleShowFacebookActivities();">Show</a></h3>
-              <div id="fb_table" style="display:none;">
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#facebook-activities" style="font-family: raleway-bold;">Facebook</a></li>
+            <li><a data-toggle="tab" href="#twitter-activities" style="font-family: raleway-bold;">Twitter</a></li>
+            <li><a data-toggle="tab" href="#instagram-activities" style="font-family: raleway-bold;">Instagram</a></li>
+          </ul>
+          <div class="tab-content">
+            <div id="facebook-activities" class="col-twelve tab-full tab-pane fade in active">
+              <div id="fb_table">
                  <div class="table-responsive" id="fb_likes">
                     <table>
                       <thead>
@@ -163,7 +169,7 @@
                  <div class="table-responsive" id="fb_posts">
                     <table>
                       <thead>
-                        <tr><th>Message</th><th>Story</th><th>Timestamp</th></tr>
+                        <tr><th>Posts Message</th><th>Posts Story</th><th>Timestamp</th></tr>
                       </thead>
                       <tbody id="fb_posts_tbody">
                       </tbody>
@@ -171,11 +177,9 @@
                  </div>
               </div>
             </div>
-            <br>
 
-            <div id="twitter-activities" class="col-twelve tab-full" style="display:none;">
-              <h3>Twitter Activities. <a class="button" id="twitter_toggle_button" onclick="toggleShowTwitterActivities();">Show</a></h3>
-              <div id="twitter_table" style="display:none;">
+            <div id="twitter-activities" class="col-twelve tab-full tab-pane fade">
+              <div id="twitter_table">
               <div class="table-responsive" id="twitter_posts">
                  <table>
                    <thead>
@@ -187,11 +191,9 @@
               </div>
               </div>
             </div>
-            <br>
 
-            <div id="instagram-activities" class="col-twelve tab-full" style="display:none;">
-              <h3>Instagram Activities. <a class="button" id="instagram_toggle_button" onclick="toggleShowInstagramActivities();">Show</a></h3>
-              <div id="instagram_table"  style="display:none;">
+            <div id="instagram-activities" class="col-twelve tab-full tab-pane fade">
+              <div id="instagram_table">
                 <div class="table-responsive" id="instagram_posts">
                    <table>
                      <thead>
@@ -202,14 +204,13 @@
                    </table>
                 </div>
               </div>
-            </div>
-            <br>
-
-            <div class="col-twelve tab-full" >
-              <h3>Raw Json.</h3>
-              <p id="raw_content"></p>
-            </div>
+            </div>  
       </div>
+      <!-- <div class="col-twelve tab-full" >
+        <h3>Raw Json.</h3>
+        <p id="raw_content"></p>
+      </div> -->
+    </div>
    </section>
 
    <!-- footer
@@ -314,6 +315,7 @@
    <script src="js/plugins.js"></script>
    <script src="js/main.js"></script>
 
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo= sha512-2e8qq0ETcfWRI4HJBzQiA3UoyFk6tbNyG+qSaIBZLyW9Xf3sWZHN/lxe9fTh1U45DpPf07yj94KsUHHWe4Yk1A==" crossorigin="anonymous"></script>
 
    <link rel="stylesheet" href="css/d3canvas.css">  
    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
