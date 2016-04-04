@@ -19,9 +19,11 @@ function processUserDataAJAX() {
 }
 
 $("#time-range-selector").change(function() {
+	$('#bar-type-div option[value="stacked"]').prop('selected', true);
 	processData(cachedRawData, $('#time-range-selector').val());
 });
 $("#visualization-type-selector").change(function() {
+	$('#bar-type-div option[value="stacked"]').prop('selected', true);
 	processData(cachedRawData, $('#time-range-selector').val());
 });
 
