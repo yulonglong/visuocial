@@ -150,6 +150,13 @@ h6, .h06 {
 	letter-spacing: .15rem;
 }
 
+option {
+	font-family: "raleway-regular";
+}
+select.form-control {
+	font-family: "raleway-regular";
+}
+
 p img {
 	margin: 0;
 }
