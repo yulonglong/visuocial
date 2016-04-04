@@ -668,9 +668,10 @@ button:focus,
 input[type="submit"]:focus,
 input[type="reset"]:focus,
 input[type="button"]:focus {
-	background: #bebebe;
+	background: #999999;
 	color: #FFFFFF;
 	outline: 0;
+	text-decoration: none;
 }
 
 .button-disabled{
@@ -689,6 +690,7 @@ input[type="button"]:focus {
 	background: #d8d8d8;
 	color: #bfbfbf;
 	outline: 0;
+	text-decoration: none;
 	cursor: default;
 }
 
