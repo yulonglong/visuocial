@@ -298,28 +298,32 @@ function processData(rawData, m) {
 				+currCaption+"</td><td>"+createdTime+"</td></tr>");
 		}
 
-		$("#instagram_likes_tbody").html("");
-		for (var i=0;i<instaRecentLiked["data"].length;i++) {
-			var currCaption = instaRecentLiked["data"][i]["caption"];
-			if (currCaption == null) {
-				currCaption = "N.A.";
-			}
-			else {
-				currCaption = currCaption["text"];
-				parsedData["words"].push(currCaption);
-			}
-			var createdTime = parseDate(parseInt(instaRecentLiked["data"][i]["created_time"])*1000);
+		// The instagram liked database doesnt give what we want,
+		// unable to see other people's post that user has liked
 
-			// Check whether the created date is in the selected range, if not dont show
-			var createdDate = new Date(parseDate(parseInt(instaRecentLiked["data"][i]["created_time"])*1000));
-			if (createdDate < earliestDate) break;
+		// $("#instagram_likes_tbody").html("");
+		// for (var i=0;i<instaRecentLiked["data"].length;i++) {
+		// 	var currCaption = instaRecentLiked["data"][i]["caption"];
+		// 	if (currCaption == null) {
+		// 		currCaption = "N.A.";
+		// 	}
+		// 	else {
+		// 		currCaption = currCaption["text"];
+		// 		parsedData["words"].push(currCaption);
+		// 	}
+		// 	var createdTime = parseDate(parseInt(instaRecentLiked["data"][i]["created_time"])*1000);
 
-			var link = instaRecentLiked["data"][i]["link"];
+		// 	// Check whether the created date is in the selected range, if not dont show
+		// 	var createdDate = new Date(parseDate(parseInt(instaRecentLiked["data"][i]["created_time"])*1000));
+		// 	if (createdDate < earliestDate) break;
 
-			$("#instagram_likes_tbody").append("<tr><td>"+
-				"<a class=\"fa fa-instagram\" href=\""+link+"\">&nbsp</a>"
-				+currCaption+"</td><td>"+createdTime+"</td></tr>");
-		}
+		// 	var link = instaRecentLiked["data"][i]["link"];
+
+		// 	$("#instagram_likes_tbody").append("<tr><td>"+
+		// 		"<a class=\"fa fa-instagram\" href=\""+link+"\">&nbsp</a>"
+		// 		+currCaption+"</td><td>"+createdTime+"</td></tr>");
+		// }
+		
 		// $("#raw_content").append(JSON.stringify(instaRecentPublish)+"<br>");
 		// $("#raw_content").append(JSON.stringify(instaRecentLiked)+"<br>");
 
@@ -356,20 +360,24 @@ function processData(rawData, m) {
 				}
 			}
 		}
-		for (var i=0;i<instaRecentLiked["data"].length;i++) {
-			var instaCurrDate = new Date(parseInt(instaRecentLiked["data"][i]["created_time"])*1000);
-			var dd = instaCurrDate.getDate();
-			var mm = instaCurrDate.getMonth()+1; //January is 0!
-			var yy = instaCurrDate.getFullYear();
-			var formattedInstaCurrDate = dd+'/'+mm+'/'+yy;
-			for(var j=0;j<mInt;j++){
-				if (instaParsedData[j]["date"] == formattedInstaCurrDate) {
-					instaParsedData[j]["freq"] += 1;
-					instaParsedData[j]["y"] += 1;
-					cumulativeFreq += 1;
-				}
-			}
-		}
+		
+		// The instagram liked database doesnt give what we want,
+		// unable to see other people's post that user has liked
+
+		// for (var i=0;i<instaRecentLiked["data"].length;i++) {
+		// 	var instaCurrDate = new Date(parseInt(instaRecentLiked["data"][i]["created_time"])*1000);
+		// 	var dd = instaCurrDate.getDate();
+		// 	var mm = instaCurrDate.getMonth()+1; //January is 0!
+		// 	var yy = instaCurrDate.getFullYear();
+		// 	var formattedInstaCurrDate = dd+'/'+mm+'/'+yy;
+		// 	for(var j=0;j<mInt;j++){
+		// 		if (instaParsedData[j]["date"] == formattedInstaCurrDate) {
+		// 			instaParsedData[j]["freq"] += 1;
+		// 			instaParsedData[j]["y"] += 1;
+		// 			cumulativeFreq += 1;
+		// 		}
+		// 	}
+		// }
 
 		parsedData[nIndex] = instaParsedData;
 		parsedData["cumulativeFreq"][nIndex] = cumulativeFreq;
