@@ -139,7 +139,8 @@ function processData(rawData, m) {
 			if (currMessage !== undefined)	parsedData["words"].push(currMessage);
 
 			var currStory = fbRecentPosts["data"][i]["story"];
-			if (currStory !== undefined) parsedData["words"].push(currStory);
+			// Story is not important, message is the content
+			// if (currStory !== undefined) parsedData["words"].push(currStory);
 
 			var pageId = fbRecentPosts["data"][i]["id"];
 
