@@ -71,33 +71,37 @@
    <section id="features">
       <div class="row section-intro">
          <div class="col-twelve">
-               <h1>Welcome,</h1>
-               <h5 id="welcome_username"></h5>
-            </div>  
-         </div>               
-   </section> <!-- /intro -->
-
-   <section id="styles">
-
-      <div class="row">
-         <div class="col-twelve tab-full">
-            <h1>Link Accounts.</h1>
-            <div class="col-four tab-full">
-               <a id="link_fb_button" class="button button-disabled full-width">Link with Facebook | <i class="fa fa-facebook"></i></a>
-               <h6 id="link_fb" style="text-align: center;"></h6>
-            </div>
-
-            <div class="col-four tab-full">
-               <a id="link_twitter_button" class="button button-disabled full-width">Link with Twitter | <i class="fa fa-twitter"></i></a>
-               <h6 id="link_twitter" style="text-align: center;"></h6>
-            </div>
-            <div class="col-four tab-full">
-               <a id="link_insta_button" class="button button-disabled full-width">Link with Instagram | <i class="fa fa-instagram"></i></a>
-               <h6 id="link_insta" style="text-align: center;"></h6>
-            </div>
-         </div>
+           <h1>Welcome,</h1>
+           <h5 id="welcome_username"></h5>
+        </div>  
+      </div>
+      <div class="row section-intro">
+          <div class="col-four tab-full">
+             <a id="link_fb_button" class="button button-disabled full-width">Link Facebook <i class="fa fa-facebook"></i></a>
+             <h6 id="link_fb" style="text-align: center;"></h6>
+          </div>
+          <div class="col-four tab-full">
+             <a id="link_twitter_button" class="button button-disabled full-width">Link Twitter <i class="fa fa-twitter"></i></a>
+             <h6 id="link_twitter" style="text-align: center;"></h6>
+          </div>
+          <div class="col-four tab-full">
+             <a id="link_insta_button" class="button button-disabled full-width">Link Instagram <i class="fa fa-instagram"></i></a>
+             <h6 id="link_insta" style="text-align: center;"></h6>
+          </div>
       </div>
 
+   </section> <!-- /intro -->
+
+   <section id="process">
+      <div class="row">
+         <div class="col-twelve tab-full" style="text-align:center;">
+         <img src="images/loading.gif"/>
+         <h5>Loading Data...</h5>
+         </div>
+      </div>
+   </section>
+
+   <section id="styles" style="display:none;">
      <div class="row">
          <div class="col-twelve tab-full">
             <h1>Dashboard.</h1>
@@ -161,6 +165,7 @@
                  </div>
               </div>
             </div>
+            <br>
 
             <div id="twitter-activities" class="col-twelve tab-full" style="display:none;">
               <h3>Twitter Activities. <a class="button" id="twitter_toggle_button" onclick="toggleShowTwitterActivities();">Show</a></h3>
@@ -176,35 +181,37 @@
               </div>
               </div>
             </div>
+            <br>
 
             <div id="instagram-activities" class="col-twelve tab-full" style="display:none;">
               <h3>Instagram Activities. <a class="button" id="instagram_toggle_button" onclick="toggleShowInstagramActivities();">Show</a></h3>
               <div id="instagram_table"  style="display:none;">
-              <div class="table-responsive" id="instagram_likes">
-                 <table>
-                   <thead>
-                     <tr><th>Caption</th><th>Timestamp</th></tr>
-                   </thead>
-                   <tbody id="instagram_posts_tbody">
-                   </tbody>
-                 </table>
+                <div class="table-responsive" id="instagram_likes">
+                   <table>
+                     <thead>
+                       <tr><th>Caption</th><th>Timestamp</th></tr>
+                     </thead>
+                     <tbody id="instagram_posts_tbody">
+                     </tbody>
+                   </table>
+                </div>
+                <div class="table-responsive" id="instagram_posts">
+                   <table>
+                     <thead>
+                       <tr><th>Caption</th><th>Timestamp</th></tr>
+                     </thead>
+                     <tbody id="instagram_likes_tbody">
+                     </tbody>
+                   </table>
+                </div>
               </div>
-              <div class="table-responsive" id="instagram_posts">
-                 <table>
-                   <thead>
-                     <tr><th>Caption</th><th>Timestamp</th></tr>
-                   </thead>
-                   <tbody id="instagram_likes_tbody">
-                   </tbody>
-                 </table>
-              </div>
-              </div>
-          </div>
+            </div>
+            <br>
 
-          <div class="col-twelve tab-full" >
-            <h3>Raw Json.</h3>
-            <p id="raw_content"></p>
-          </div>
+            <div class="col-twelve tab-full" >
+              <h3>Raw Json.</h3>
+              <p id="raw_content"></p>
+            </div>
       </div>
    </section>
 

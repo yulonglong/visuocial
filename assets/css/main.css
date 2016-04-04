@@ -1568,6 +1568,9 @@ a.menu-toggle {
 #features .section-intro h5 {
 	color: rgba(255, 255, 255, 0.5);
 }
+#features .section-intro h6 {
+	color: rgba(255, 255, 255, 0.5);
+}
 #features .section-intro p {
 	color: rgba(255, 255, 255, 0.7);
 }

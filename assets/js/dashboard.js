@@ -379,6 +379,8 @@ function processData(rawData, m) {
 		// Process Data - End
 	}
 
+	$('#process').hide();
+	$('#styles').show();
 
 	var visualizationType = ($('input:radio[name=visualization]:checked').val());
 
@@ -395,6 +397,8 @@ function processData(rawData, m) {
 		graph(n, m, parsedData);
 	else if (visualizationType == "donut")
 		donut(n, parsedData);
+
+
 }
 
 
