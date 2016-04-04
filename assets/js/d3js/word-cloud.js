@@ -1,19 +1,24 @@
 function wordCloud(parsedData) {
-  
+
   var longWord = parsedData["words"].join(" ");
 
   function wordFrequency(txt){
-    var wordArray = txt.split(/[ ?!,*'"]/);
+    var wordArray = txt.split(/[\s?!,*'"]/);
     var newArray = [], wordObj;
     wordArray.forEach(function (word) {
+      word = word.toLowerCase();
       if (word.indexOf("http") === 0) return;
       if (word.indexOf("@") === 0) return;
       if (word.length <= 1) return;
-      if (stopwd[word.toLowerCase()] !== undefined) return;
+      if (stopwd[word] !== undefined) return;
+      if (!(/[a-zA-Z]/.test(word))) return;
+
+      word = word.replace(/[^0-9a-z]/gi, '');
 
       wordObj = newArray.filter(function (w){
         return w.text == word;
       });
+
       if (wordObj.length) {
         wordObj[0].size += 1;
       } else {
