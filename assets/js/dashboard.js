@@ -54,10 +54,13 @@ $("#time-range-selector").change(function() {
 });
 $("#visualization-type-selector").change(function() {
 	$('#bar-type-div option[value="stacked"]').prop('selected', true);
-	processData(cachedRawData, $('#time-range-selector').val());
+	showVisualization(cachedParsedData, cachedNumAccount, cachedTimeRange);
 });
 
 var cachedRawData;
+var cachedParsedData;
+var cachedTimeRange;
+var cachedNumAccount;
 
 function processData(rawData, m) {
 	cachedRawData = rawData;
@@ -134,23 +137,23 @@ function processData(rawData, m) {
 		var fbUserLikes = JSON.parse(responseArray["facebook"]["userLikes"]);
 		var fbRecentPosts = JSON.parse(responseArray["facebook"]["recentPosts"]);
 
-		$("#fb_likes_tbody").html("");
-		for (var i=0;i<fbUserLikes["data"].length;i++) {
-			var createdTime = parseDate(fbUserLikes["data"][i]["created_time"]);
-			// Check whether the created date is in the selected range, if not dont show
-			var createdDate = new Date(parseDate(fbUserLikes["data"][i]["created_time"]));
-			if (createdDate < earliestDate) break;
+		// $("#fb_likes_tbody").html("");
+		// for (var i=0;i<fbUserLikes["data"].length;i++) {
+		// 	var createdTime = parseDate(fbUserLikes["data"][i]["created_time"]);
+		// 	// Check whether the created date is in the selected range, if not dont show
+		// 	var createdDate = new Date(parseDate(fbUserLikes["data"][i]["created_time"]));
+		// 	if (createdDate < earliestDate) break;
 
-			var pageName = fbUserLikes["data"][i]["name"];
-			// Page name is not relevant to word cloud
-			// parsedData["words"].push(pageName);
+		// 	var pageName = fbUserLikes["data"][i]["name"];
+		// 	// Page name is not relevant to word cloud
+		// 	// parsedData["words"].push(pageName);
 
-			var pageId = fbUserLikes["data"][i]["id"];
+		// 	var pageId = fbUserLikes["data"][i]["id"];
 
-			$("#fb_likes_tbody").append("<tr><td>"+
-				"<a class=\"fa fa-facebook\" target=\"_blank\" href=\"http://facebook.com/"+pageId+"\">&nbsp</a>"
-				+pageName+"</td><td>"+createdTime+"</td></tr>");
-		}
+		// 	$("#fb_likes_tbody").append("<tr><td>"+
+		// 		"<a class=\"fa fa-facebook\" target=\"_blank\" href=\"http://facebook.com/"+pageId+"\">&nbsp</a>"
+		// 		+pageName+"</td><td>"+createdTime+"</td></tr>");
+		// }
 
 		$("#fb_posts_tbody").html("");
 		for (var i=0;i<fbRecentPosts["data"].length;i++) {
@@ -169,7 +172,7 @@ function processData(rawData, m) {
 
 			var currStory = fbRecentPosts["data"][i]["story"];
 			if (currStory === undefined) currStory = "-";
-			
+
 			// Story is not important, message is the content
 			// if (currStory !== undefined) parsedData["words"].push(currStory);
 
@@ -216,20 +219,20 @@ function processData(rawData, m) {
 				}
 			}
 		}
-		for (var i=0;i<fbUserLikes["data"].length;i++) {
-			var fbCurrDate = new Date(fbUserLikes["data"][i]["created_time"]);
-			var dd = fbCurrDate.getDate();
-			var mm = fbCurrDate.getMonth()+1; //January is 0!
-			var yy = fbCurrDate.getFullYear();
-			var formattedFbCurrDate = dd+'/'+mm+'/'+yy;
-			for(var j=0;j<mInt;j++){
-				if (fbParsedData[j]["date"] == formattedFbCurrDate) {
-					fbParsedData[j]["freq"] += 1;
-					fbParsedData[j]["y"] += 1;
-					cumulativeFreq += 1
-				}
-			}
-		}
+		// for (var i=0;i<fbUserLikes["data"].length;i++) {
+		// 	var fbCurrDate = new Date(fbUserLikes["data"][i]["created_time"]);
+		// 	var dd = fbCurrDate.getDate();
+		// 	var mm = fbCurrDate.getMonth()+1; //January is 0!
+		// 	var yy = fbCurrDate.getFullYear();
+		// 	var formattedFbCurrDate = dd+'/'+mm+'/'+yy;
+		// 	for(var j=0;j<mInt;j++){
+		// 		if (fbParsedData[j]["date"] == formattedFbCurrDate) {
+		// 			fbParsedData[j]["freq"] += 1;
+		// 			fbParsedData[j]["y"] += 1;
+		// 			cumulativeFreq += 1
+		// 		}
+		// 	}
+		// }
 
 		parsedData[nIndex] = fbParsedData;
 		parsedData["cumulativeFreq"][nIndex] = cumulativeFreq;
@@ -431,24 +434,28 @@ function processData(rawData, m) {
 	$('#process').hide(500);
 	$('#dashboard').show();
 
+	cachedTimeRange = m;
+	cachedNumAccount = n;
+	cachedParsedData = parsedData;
+	showVisualization(cachedParsedData, cachedNumAccount, cachedTimeRange);
+}
 
+function showVisualization(data, n, m) {
 	var visualizationType = $('#visualization-type-selector').val();
 
 	$(".d3canvas").html("");
 	$('#bar-type-div').hide();
 
 	if (visualizationType == "stackedBars") {
-		stackedToGroupedBars(n, m, parsedData);
+		stackedToGroupedBars(n, m, data);
 		$('#bar-type-div').show();
 	}
 	else if (visualizationType == "wordCloud")
-		wordCloud(parsedData);
+		wordCloud(data);
 	else if (visualizationType == "graph")
-		graph(n, m, parsedData);
+		graph(n, m, data);
 	else if (visualizationType == "donut")
-		donut(n, parsedData);
-
-
+		donut(n, data);
 }
 
 var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
