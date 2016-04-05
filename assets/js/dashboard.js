@@ -11,6 +11,7 @@ function processUserDataAJAX() {
 	}
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			$('#loading-text').html("Processing data...");
 			processData(xmlhttp.responseText, $('#time-range-selector').val());
 		}
 	};
