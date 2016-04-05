@@ -1,6 +1,6 @@
 function donut(n, parsedData) {
 	var width = 960,
-    height = 500 - 29; // adjust for height of input bar div
+    height = 500; // adjust for height of input bar div
 
 var color = d3.scale.category20();
 

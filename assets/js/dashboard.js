@@ -382,6 +382,9 @@ function processData(rawData, m) {
 	$('#process').hide(500);
 	$('#dashboard').show();
 
+	// Scroll down to dashboard
+    $('html, body').animate({ scrollTop: 500 }, 300);
+
 	var visualizationType = $('#visualization-type-selector').val();
 
 	$(".d3canvas").html("");
