@@ -13,6 +13,9 @@ function processUserDataAJAX() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 			$('#loading-text').html("Processing data...");
 			processData(xmlhttp.responseText, $('#time-range-selector').val());
+			
+			// Scroll down to dashboard
+		    $('html, body').animate({ scrollTop: 500 }, 300);
 		}
 	};
 	xmlhttp.open("GET","/api/getUserData",true);
@@ -388,8 +391,6 @@ function processData(rawData, m) {
 	$('#process').hide(500);
 	$('#dashboard').show();
 
-	// Scroll down to dashboard
-    $('html, body').animate({ scrollTop: 500 }, 300);
 
 	var visualizationType = $('#visualization-type-selector').val();
 
