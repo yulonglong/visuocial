@@ -29,6 +29,17 @@
    		padding-top: 5rem;
    		padding-bottom: 5rem;
    	}
+
+    /* override bootstrap's settings to respect endline in tooltips */
+    .tooltip-inner {
+      white-space:pre-wrap;
+    }
+
+    /* For sentiment symbols */
+    a.sentiment:hover, a.sentiment:focus {
+      text-decoration: none;
+      cursor: pointer;
+    }
       	
    </style>   
 

@@ -36,12 +36,47 @@ function getSentimentAJAX(id, text) {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 			var responseArray = JSON.parse(xmlhttp.responseText);
 			var sentiment = responseArray["type"];
-			if (sentiment == "positive")
-				$('#'+id).html("<i class=\"fa fa-plus\" style='color:green;'></i>")
-			else if (sentiment == "negative")
-				$('#'+id).html("<i class=\"fa fa-minus\" style='color:red;'></i>")
-			else
-				$('#'+id).html("<i class=\"fa fa-circle\"></i>")
+
+			var posKeywords = [];
+			var negKeywords = [];
+
+			for(var i=0;i<responseArray["keywords"].length;i++) {
+				if (responseArray["keywords"][i]["score"] > 0) {
+					posKeywords.push(responseArray["keywords"][i]["word"]);
+				}
+				else {
+					negKeywords.push(responseArray["keywords"][i]["word"]);
+				}
+			}
+
+			var tooltipString = "";
+			if (posKeywords.length > 0) {
+				tooltipString = tooltipString + "Positive Keywords:\n" + posKeywords.join(", ") + "\n";
+			}
+			if (negKeywords.length > 0) {
+				if (tooltipString.length > 0) tooltipString = tooltipString + "\n";
+				tooltipString = tooltipString + "Negative Keywords:\n" + negKeywords.join(", ") + "\n";
+			}
+			if (tooltipString.length == 0) tooltipString = "N.A.";
+
+			if (sentiment == "positive") {
+				$('#'+id).html("<a class=\"fa fa-plus sentiment\" style='color:green;' data-toggle='tooltip' data-placement='auto left' "+
+					"title=\""+tooltipString+"\""+
+					"></a>")
+			}
+			else if (sentiment == "negative") {
+				$('#'+id).html("<a class=\"fa fa-minus sentiment\" style='color:red;' data-toggle='tooltip' data-placement='auto left' "+
+					"title=\""+tooltipString+"\""+
+					"></a>")
+			}
+			else {
+				$('#'+id).html("<a class=\"fa fa-circle sentiment\" style='color:black;' data-toggle='tooltip' data-placement='auto left' "+
+					"title=\""+tooltipString+"\""+
+					"></a>")
+			}
+
+    		$('[data-toggle=tooltip]').tooltip();
+
 		}
 	};
 	xmlhttp.open("GET","/api/getSentiment?text=\""+text+"\"",true);
