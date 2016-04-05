@@ -34,7 +34,7 @@ module.exports = {
 		.send("text="+req.body["text"])
 		.end(function (result) {
 		  // console.log(result.status, result.headers, result.body);
-		  return result.body;
+		  return res.send(result.body);
 		});
 	},
 
