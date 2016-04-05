@@ -13,7 +13,7 @@ function processUserDataAJAX() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 			$('#loading-text').html("Processing data...");
 			processData(xmlhttp.responseText, $('#time-range-selector').val());
-			
+
 			// Scroll down to dashboard
 		    $('html, body').animate({ scrollTop: 500 }, 300);
 		}
@@ -21,6 +21,32 @@ function processUserDataAJAX() {
 	xmlhttp.open("GET","/api/getUserData",true);
 	xmlhttp.send();
 }
+
+function getSentimentAJAX(id, text) {
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		// code for IE6, IE5
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var responseArray = JSON.parse(xmlhttp.responseText);
+			var sentiment = responseArray["type"];
+			if (sentiment == "positive")
+				$('#'+id).html("<i class=\"fa fa-plus\" style='color:green;'></i>")
+			else if (sentiment == "negative")
+				$('#'+id).html("<i class=\"fa fa-minus\" style='color:red;'></i>")
+			else
+				$('#'+id).html("<i class=\"fa fa-circle\"></i>")
+		}
+	};
+	xmlhttp.open("GET","/api/getSentiment?text=\""+text+"\"",true);
+	xmlhttp.send();
+}
+
 
 $("#time-range-selector").change(function() {
 	$('#bar-type-div option[value="stacked"]').prop('selected', true);
@@ -134,7 +160,12 @@ function processData(rawData, m) {
 			if (createdDate < earliestDate) break;
 
 			var currMessage = fbRecentPosts["data"][i]["message"];
-			if (currMessage !== undefined)	parsedData["words"].push(currMessage);
+			var sentiment = "neutral";
+			if (currMessage !== undefined)	{
+				parsedData["words"].push(currMessage);
+				getSentimentAJAX("fb_sentiment_"+i.toString(),currMessage);
+			}
+			else currMessage = "-";
 
 			var currStory = fbRecentPosts["data"][i]["story"];
 			// Story is not important, message is the content
@@ -142,7 +173,8 @@ function processData(rawData, m) {
 
 			var pageId = fbRecentPosts["data"][i]["id"];
 
-			$("#fb_posts_tbody").append("<tr><td>"+
+			$("#fb_posts_tbody").append("<tr><td id='fb_sentiment_"+i+"'></td>"+
+				"<td>"+
 				"<a class=\"fa fa-facebook\" target=\"_blank\" href=\"http://facebook.com/"+pageId+"\">&nbsp</a>"
 				+currMessage+"</td><td>"+currStory+"</td><td>"+createdTime+"</td></tr>");
 		}
@@ -217,12 +249,16 @@ function processData(rawData, m) {
 			if (createdDate < earliestDate) break;
 
 			var currTweet = twitterRecentWeets["recentTweets"][i]["text"];
-			if (currTweet !== undefined) parsedData["words"].push(currTweet);
+			if (currTweet !== undefined) {
+				parsedData["words"].push(currTweet);
+				getSentimentAJAX("twitter_sentiment_"+i.toString(),currTweet);
+			}
 
 			var id = twitterRecentWeets["recentTweets"][i]["id_str"];
 			var username = twitterRecentWeets["recentTweets"][i]["user"]["screen_name"];
 
-			$("#twitter_posts_tbody").append("<tr><td>"+
+			$("#twitter_posts_tbody").append("<tr><td id='twitter_sentiment_"+i+"'></td>"+
+				"<td>"+
 				"<a class=\"fa fa-twitter\" target=\"_blank\" href=\"http://twitter.com/"+username+"/status/"+id+"\">&nbsp</a>"
 				+currTweet+"</td><td>"+createdTime+"</td></tr>");
 		}
@@ -278,11 +314,12 @@ function processData(rawData, m) {
 		for (var i=0;i<instaRecentPublish["data"].length;i++) {
 			var currCaption = instaRecentPublish["data"][i]["caption"];
 			if (currCaption == null) {
-				currCaption = "N.A.";
+				currCaption = "-";
 			}
 			else {
 				currCaption = currCaption["text"];
 				parsedData["words"].push(currCaption);
+				getSentimentAJAX("insta_sentiment_"+i.toString(),currCaption);
 			}
 			var createdTime = parseDate(parseInt(instaRecentPublish["data"][i]["created_time"])*1000);
 
@@ -293,7 +330,8 @@ function processData(rawData, m) {
 
 			var link = instaRecentPublish["data"][i]["link"];
 
-			$("#instagram_posts_tbody").append("<tr><td>"+
+			$("#instagram_posts_tbody").append("<tr><td id='insta_sentiment_"+i+"'></td>"+
+				"<td>"+
 				"<a class=\"fa fa-instagram\" target=\"_blank\" href=\""+link+"\">&nbsp</a>"
 				+currCaption+"</td><td>"+createdTime+"</td></tr>");
 		}
