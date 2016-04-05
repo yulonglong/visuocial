@@ -12,8 +12,9 @@ function processUserDataAJAX() {
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 			$('#loading-text').html("Processing data...");
-			processData(xmlhttp.responseText, $('#time-range-selector').val());
-
+			processRawData(xmlhttp.responseText);
+			processData(cachedDefaultData);
+			showVisualization(cachedParsedData, cachedNumAccount);
 			// Scroll down to dashboard
 		    $('html, body').animate({ scrollTop: 500 }, 300);
 		}
@@ -50,29 +51,31 @@ function getSentimentAJAX(id, text) {
 
 $("#time-range-selector").change(function() {
 	$('#bar-type-div option[value="stacked"]').prop('selected', true);
-	processData(cachedRawData, $('#time-range-selector').val());
+	processData(cachedDefaultData);
+	showVisualization(cachedParsedData, cachedNumAccount);
 });
 $("#visualization-type-selector").change(function() {
 	$('#bar-type-div option[value="stacked"]').prop('selected', true);
-	showVisualization(cachedParsedData, cachedNumAccount, cachedTimeRange);
+	showVisualization(cachedParsedData, cachedNumAccount);
 });
 
 var cachedRawData;
+
+var cachedDefaultData;
 var cachedParsedData;
 var cachedTimeRange;
 var cachedNumAccount;
 
-function processData(rawData, m) {
+var fbValid = false;
+var twitterValid = false;
+var instaValid = false;
+
+function processRawData(rawData) {
 	cachedRawData = rawData;
 	var responseArray = JSON.parse(rawData);
 	$("#welcome_username").html(responseArray["username"]);
 
-	var fbValid = false;
-	var twitterValid = false;
-	var instaValid = false;
 	var n = 0;
-	var nIndex=0;
-	var parsedData = [];
 
 	if (jQuery.isEmptyObject(responseArray["facebook"])) {
 		$("#link_fb").html("<i class=\"fa fa-minus-square\"></i> Not Linked");
@@ -107,9 +110,14 @@ function processData(rawData, m) {
 		n++;
 	}
 
-	
+	cachedNumAccount = n;
+	cachedDefaultData = responseArray;
+}
+
+function processData(data) {
+	var parsedData = [];
 	parsedData["date"] = [];
-	var mInt = parseInt(m);
+	var mInt = parseInt($('#time-range-selector').val());
 	var today = new Date();
 	var currDateGlobal = new Date(today.getTime());
 	currDateGlobal.setDate(currDateGlobal.getDate()-mInt+1);
@@ -134,26 +142,8 @@ function processData(rawData, m) {
 	parsedData["cumulativeFreq"] = [];
 
 	if (fbValid) {
-		var fbUserLikes = JSON.parse(responseArray["facebook"]["userLikes"]);
-		var fbRecentPosts = JSON.parse(responseArray["facebook"]["recentPosts"]);
-
-		// $("#fb_likes_tbody").html("");
-		// for (var i=0;i<fbUserLikes["data"].length;i++) {
-		// 	var createdTime = parseDate(fbUserLikes["data"][i]["created_time"]);
-		// 	// Check whether the created date is in the selected range, if not dont show
-		// 	var createdDate = new Date(parseDate(fbUserLikes["data"][i]["created_time"]));
-		// 	if (createdDate < earliestDate) break;
-
-		// 	var pageName = fbUserLikes["data"][i]["name"];
-		// 	// Page name is not relevant to word cloud
-		// 	// parsedData["words"].push(pageName);
-
-		// 	var pageId = fbUserLikes["data"][i]["id"];
-
-		// 	$("#fb_likes_tbody").append("<tr><td>"+
-		// 		"<a class=\"fa fa-facebook\" target=\"_blank\" href=\"http://facebook.com/"+pageId+"\">&nbsp</a>"
-		// 		+pageName+"</td><td>"+createdTime+"</td></tr>");
-		// }
+		var fbUserLikes = JSON.parse(data["facebook"]["userLikes"]);
+		var fbRecentPosts = JSON.parse(data["facebook"]["recentPosts"]);
 
 		$("#fb_posts_tbody").html("");
 		for (var i=0;i<fbRecentPosts["data"].length;i++) {
@@ -219,32 +209,17 @@ function processData(rawData, m) {
 				}
 			}
 		}
-		// for (var i=0;i<fbUserLikes["data"].length;i++) {
-		// 	var fbCurrDate = new Date(fbUserLikes["data"][i]["created_time"]);
-		// 	var dd = fbCurrDate.getDate();
-		// 	var mm = fbCurrDate.getMonth()+1; //January is 0!
-		// 	var yy = fbCurrDate.getFullYear();
-		// 	var formattedFbCurrDate = dd+'/'+mm+'/'+yy;
-		// 	for(var j=0;j<mInt;j++){
-		// 		if (fbParsedData[j]["date"] == formattedFbCurrDate) {
-		// 			fbParsedData[j]["freq"] += 1;
-		// 			fbParsedData[j]["y"] += 1;
-		// 			cumulativeFreq += 1
-		// 		}
-		// 	}
-		// }
 
-		parsedData[nIndex] = fbParsedData;
-		parsedData["cumulativeFreq"][nIndex] = cumulativeFreq;
-		parsedData["indexMapping"][nIndex] = "Facebook";
-		nIndex++;
+		parsedData.push(fbParsedData);
+		parsedData["cumulativeFreq"].push(cumulativeFreq);
+		parsedData["indexMapping"].push("Facebook");
 
 		// $("#raw_content").append("FB<br>" + JSON.stringify(fbParsedData)+"<br>");
 		// Process Data - End
 	}
 
 	if (twitterValid) {
-		var twitterRecentWeets = responseArray["twitter"];
+		var twitterRecentWeets = data["twitter"];
 
 		$("#twitter_posts_tbody").html("");
 		for (var i=0;i<twitterRecentWeets["recentTweets"].length;i++) {
@@ -302,18 +277,17 @@ function processData(rawData, m) {
 			}
 		}
 
-		parsedData[nIndex] = twitterParsedData;
-		parsedData["cumulativeFreq"][nIndex] = cumulativeFreq;
-		parsedData["indexMapping"][nIndex] = "Twitter";
-		nIndex++;
+		parsedData.push(twitterParsedData);
+		parsedData["cumulativeFreq"].push(cumulativeFreq);
+		parsedData["indexMapping"].push("Twitter");
 
 		// $("#raw_content").append("Twitter<br>" + JSON.stringify(twitterParsedData)+"<br>");
 		// Process Data - End
 	}
 	
 	if (instaValid) {
-		var instaRecentPublish = JSON.parse(responseArray["instagram"]["recentPublish"]);
-		var instaRecentLiked = JSON.parse(responseArray["instagram"]["recentLiked"]);
+		var instaRecentPublish = JSON.parse(data["instagram"]["recentPublish"]);
+		var instaRecentLiked = JSON.parse(data["instagram"]["recentLiked"]);
 		
 		$("#instagram_posts_tbody").html("");
 		for (var i=0;i<instaRecentPublish["data"].length;i++) {
@@ -340,36 +314,6 @@ function processData(rawData, m) {
 				"<a class=\"fa fa-instagram\" target=\"_blank\" href=\""+link+"\">&nbsp</a>"
 				+currCaption+"</td><td>"+createdTime+"</td></tr>");
 		}
-
-		// The instagram liked database doesnt give what we want,
-		// unable to see other people's post that user has liked
-
-		// $("#instagram_likes_tbody").html("");
-		// for (var i=0;i<instaRecentLiked["data"].length;i++) {
-		// 	var currCaption = instaRecentLiked["data"][i]["caption"];
-		// 	if (currCaption == null) {
-		// 		currCaption = "N.A.";
-		// 	}
-		// 	else {
-		// 		currCaption = currCaption["text"];
-		// 		parsedData["words"].push(currCaption);
-		// 	}
-		// 	var createdTime = parseDate(parseInt(instaRecentLiked["data"][i]["created_time"])*1000);
-
-		// 	// Check whether the created date is in the selected range, if not dont show
-		// 	var createdDate = new Date(parseDate(parseInt(instaRecentLiked["data"][i]["created_time"])*1000));
-		// 	if (createdDate < earliestDate) break;
-
-		// 	var link = instaRecentLiked["data"][i]["link"];
-
-		// 	$("#instagram_likes_tbody").append("<tr><td>"+
-		// 		"<a class=\"fa fa-instagram\" href=\""+link+"\">&nbsp</a>"
-		// 		+currCaption+"</td><td>"+createdTime+"</td></tr>");
-		// }
-
-		// $("#raw_content").append(JSON.stringify(instaRecentPublish)+"<br>");
-		// $("#raw_content").append(JSON.stringify(instaRecentLiked)+"<br>");
-
 
 		// Process Data - Begin
 
@@ -403,29 +347,10 @@ function processData(rawData, m) {
 				}
 			}
 		}
-		
-		// The instagram liked database doesnt give what we want,
-		// unable to see other people's post that user has liked
 
-		// for (var i=0;i<instaRecentLiked["data"].length;i++) {
-		// 	var instaCurrDate = new Date(parseInt(instaRecentLiked["data"][i]["created_time"])*1000);
-		// 	var dd = instaCurrDate.getDate();
-		// 	var mm = instaCurrDate.getMonth()+1; //January is 0!
-		// 	var yy = instaCurrDate.getFullYear();
-		// 	var formattedInstaCurrDate = dd+'/'+mm+'/'+yy;
-		// 	for(var j=0;j<mInt;j++){
-		// 		if (instaParsedData[j]["date"] == formattedInstaCurrDate) {
-		// 			instaParsedData[j]["freq"] += 1;
-		// 			instaParsedData[j]["y"] += 1;
-		// 			cumulativeFreq += 1;
-		// 		}
-		// 	}
-		// }
-
-		parsedData[nIndex] = instaParsedData;
-		parsedData["cumulativeFreq"][nIndex] = cumulativeFreq;
-		parsedData["indexMapping"][nIndex] = "Instagram";
-		nIndex++;
+		parsedData.push(instaParsedData);
+		parsedData["cumulativeFreq"].push(cumulativeFreq);
+		parsedData["indexMapping"].push("Instagram");
 
 		// $("#raw_content").append("Insta<br>" + JSON.stringify(instaParsedData)+"<br>");
 		// Process Data - End
@@ -434,14 +359,12 @@ function processData(rawData, m) {
 	$('#process').hide(500);
 	$('#dashboard').show();
 
-	cachedTimeRange = m;
-	cachedNumAccount = n;
 	cachedParsedData = parsedData;
-	showVisualization(cachedParsedData, cachedNumAccount, cachedTimeRange);
 }
 
 function showVisualization(data, n, m) {
 	var visualizationType = $('#visualization-type-selector').val();
+	var m = $('#time-range-selector').val();
 
 	$(".d3canvas").html("");
 	$('#bar-type-div').hide();
