@@ -379,8 +379,8 @@ function processData(rawData, m) {
 		// Process Data - End
 	}
 
-	$('#process').hide();
-	$('#styles').show();
+	$('#process').hide(500);
+	$('#dashboard').show();
 
 	var visualizationType = $('#visualization-type-selector').val();
 
