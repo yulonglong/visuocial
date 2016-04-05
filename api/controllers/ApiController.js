@@ -25,6 +25,19 @@ module.exports = {
 		});	
 	},
 
+	getTopic: function (req, res) {
+		// console.log("BODY:\n"+req.body["text"]);
+		unirest.post("https://twinword-topic-tagging.p.mashape.com/generate/")
+		.header("X-Mashape-Key", config.ids.mashape.key)
+		.header("Content-Type", "application/x-www-form-urlencoded")
+		.header("Accept", "application/json")
+		.send("text="+req.body["text"])
+		.end(function (result) {
+		  // console.log(result.status, result.headers, result.body);
+		  return result.body;
+		});
+	},
+
 	getUserData: function (req, res) {
 		// if not authenticated, show login page
 		if (!req.session.authenticated) {
