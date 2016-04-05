@@ -244,8 +244,9 @@ function processData(data) {
 			else currMessage = "-";
 
 			var currStory = fbRecentPosts["data"][i]["story"];
-			if (currStory === undefined) currStory = "-";
-
+			if (currStory !== undefined) {
+				currMessage = currMessage + "<br>" + "<i>"+currStory+"</i>";
+			}
 			// Story is not important, message is the content
 			// if (currStory !== undefined) parsedData["words"].push(currStory);
 
@@ -254,7 +255,7 @@ function processData(data) {
 			$("#fb_posts_tbody").append("<tr><td id='fb_sentiment_"+i+"'></td>"+
 				"<td>"+
 				"<a class=\"fa fa-facebook\" target=\"_blank\" href=\"http://facebook.com/"+pageId+"\">&nbsp</a>"
-				+currMessage+"</td><td>"+currStory+"</td><td>"+createdTime+"</td></tr>");
+				+currMessage+"</td><td>"+createdTime+"</td></tr>");
 		}
 
 		// $("#raw_content").append(JSON.stringify(fbUserLikes)+"<br>");
