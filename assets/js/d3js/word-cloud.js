@@ -8,6 +8,7 @@ function wordCloud(parsedData) {
     wordArray.forEach(function (word) {
       word = word.toLowerCase();
       if (word.indexOf("http") === 0) return;
+      if (word === "rt") return;
       if (word.indexOf("@") === 0) return;
       if (word.length <= 1) return;
       if (stopwd[word] !== undefined) return;
