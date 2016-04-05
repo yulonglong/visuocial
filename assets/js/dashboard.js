@@ -168,6 +168,8 @@ function processData(rawData, m) {
 			else currMessage = "-";
 
 			var currStory = fbRecentPosts["data"][i]["story"];
+			if (currStory === undefined) currStory = "-";
+			
 			// Story is not important, message is the content
 			// if (currStory !== undefined) parsedData["words"].push(currStory);
 
