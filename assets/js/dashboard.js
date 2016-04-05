@@ -112,7 +112,8 @@ function processData(rawData, m) {
 			if (createdDate < earliestDate) break;
 
 			var pageName = fbUserLikes["data"][i]["name"];
-			parsedData["words"].push(pageName);
+			// Page name is not relevant to word cloud
+			// parsedData["words"].push(pageName);
 
 			var pageId = fbUserLikes["data"][i]["id"];
 
