@@ -117,7 +117,9 @@ function processData(rawData, m) {
 
 			var pageId = fbUserLikes["data"][i]["id"];
 
-			$("#fb_likes_tbody").append("<tr><td><a class=\"fa fa-facebook\" href=\"http://facebook.com/"+pageId+"\">&nbsp</a>"+pageName+"</td><td>"+createdTime+"</td></tr>");
+			$("#fb_likes_tbody").append("<tr><td>"+
+				"<a class=\"fa fa-facebook\" target=\"_blank\" href=\"http://facebook.com/"+pageId+"\">&nbsp</a>"
+				+pageName+"</td><td>"+createdTime+"</td></tr>");
 		}
 
 		$("#fb_posts_tbody").html("");
@@ -136,7 +138,9 @@ function processData(rawData, m) {
 
 			var pageId = fbRecentPosts["data"][i]["id"];
 
-			$("#fb_posts_tbody").append("<tr><td><a class=\"fa fa-facebook\" href=\"http://facebook.com/"+pageId+"\">&nbsp</a>"+currMessage+"</td><td>"+currStory+"</td><td>"+createdTime+"</td></tr>");
+			$("#fb_posts_tbody").append("<tr><td>"+
+				"<a class=\"fa fa-facebook\" target=\"_blank\" href=\"http://facebook.com/"+pageId+"\">&nbsp</a>"
+				+currMessage+"</td><td>"+currStory+"</td><td>"+createdTime+"</td></tr>");
 		}
 
 		// $("#raw_content").append(JSON.stringify(fbUserLikes)+"<br>");
@@ -215,7 +219,7 @@ function processData(rawData, m) {
 			var username = twitterRecentWeets["recentTweets"][i]["user"]["screen_name"];
 
 			$("#twitter_posts_tbody").append("<tr><td>"+
-				"<a class=\"fa fa-twitter\" href=\"http://twitter.com/"+username+"/status/"+id+"\">&nbsp</a>"
+				"<a class=\"fa fa-twitter\" target=\"_blank\" href=\"http://twitter.com/"+username+"/status/"+id+"\">&nbsp</a>"
 				+currTweet+"</td><td>"+createdTime+"</td></tr>");
 		}
 		// $("#raw_content").append(JSON.stringify(twitterRecentWeets)+"<br>");
@@ -286,7 +290,7 @@ function processData(rawData, m) {
 			var link = instaRecentPublish["data"][i]["link"];
 
 			$("#instagram_posts_tbody").append("<tr><td>"+
-				"<a class=\"fa fa-instagram\" href=\""+link+"\">&nbsp</a>"
+				"<a class=\"fa fa-instagram\" target=\"_blank\" href=\""+link+"\">&nbsp</a>"
 				+currCaption+"</td><td>"+createdTime+"</td></tr>");
 		}
 
