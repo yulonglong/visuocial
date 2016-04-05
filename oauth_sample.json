@@ -16,6 +16,10 @@
 	  		"clientID": "get_your_own",
 	    	"clientSecret": "get_your_own",
 	    	"callbackURL": "http://localhost:1337/auth/instagram/callback?next=/dashboard"
+	  	},
+
+	  	"mashape": {
+	  		"key" : "your_key"
 	  	}
 	}
 }

@@ -8,8 +8,22 @@ var request = require('request');
 var async = require('async');
 var Twit = require('twit');
 var config = require('../../oauth.json');
+var unirest = require('unirest')
 
 module.exports = {
+	getSentiment: function (req, res) {
+		// These code snippets use an open-source library. http://unirest.io/nodejs
+		unirest.post("https://twinword-sentiment-analysis.p.mashape.com/analyze/")
+		.header("X-Mashape-Key", config.ids.mashape.key)
+		.header("Content-Type", "application/x-www-form-urlencoded")
+		.header("Accept", "application/json")
+		.send("text=great value in its price range!")
+		.end(function (result) {
+			console.log(result.status, result.headers, result.body);
+			return res.send(result.body);
+		});	
+	},
+
 	getUserData: function (req, res) {
 		// if not authenticated, show login page
 		if (!req.session.authenticated) {
