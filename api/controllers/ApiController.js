@@ -33,7 +33,7 @@ module.exports = {
 		.header("Accept", "application/json")
 		.send("text="+req.body["text"])
 		.end(function (result) {
-		  // console.log(result.status, result.headers, result.body);
+		  console.log(result.status, result.headers, result.body);
 		  return res.send(result.body);
 		});
 	},

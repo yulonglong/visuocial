@@ -30,6 +30,24 @@ function wordCloud(parsedData) {
   }
   var wordArray = wordFrequency(longWord).sort(function(a,b){return a.size<b.size});
 
+  executeWordCloud(wordArray);
+}
+
+function wordCloudTopic(parsedData) {
+  var newArray = [];
+  for (var key in parsedData) {
+      // skip loop if the property is from prototype
+      if (!parsedData.hasOwnProperty(key)) continue;
+
+      var size = parsedData[key];
+      newArray.push({text: key, size: size*1000}); // times 1000 to prevent size less than 1
+  }
+  var wordArray = newArray.sort(function(a,b){return a.size<b.size});
+  
+  executeWordCloud(wordArray);
+}
+
+function executeWordCloud(wordArray) {
 
   var fill = d3.scale.category20();
 

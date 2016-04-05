@@ -1,5 +1,7 @@
 processUserDataAJAX();
 
+// ================ AJAX FUNCTIONS BEGIN ================
+
 function processUserDataAJAX() {
 	var xmlhttp;
 	if (window.XMLHttpRequest) {
@@ -24,6 +26,9 @@ function processUserDataAJAX() {
 }
 
 function getTopicAJAX(text) {
+	$('option[value="topics"]').prop('disabled', true);
+	$('option[value="keywords"]').prop('disabled', true);
+
 	var xmlhttp;
 	if (window.XMLHttpRequest) {
 		// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -34,8 +39,12 @@ function getTopicAJAX(text) {
 	}
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			// xmlhttp.responseText
+			var responseArray = JSON.parse(xmlhttp.responseText);
+			cachedOverallKeyword = responseArray["keyword"];
+			cachedOverallTopic = responseArray["topic"];
 
+			$('option[value="topics"]').prop('disabled', false);
+			$('option[value="keywords"]').prop('disabled', false);
 		}
 	};
 	xmlhttp.open("POST","/api/getTopic",true);
@@ -104,17 +113,29 @@ function getSentimentAJAX(id, text) {
 	xmlhttp.send();
 }
 
+// ================ AJAX FUNCTIONS END ================
 
+
+// ================ SELECTOR ON CHANGE BEGIN ================
 $("#time-range-selector").change(function() {
 	$('#bar-type-div option[value="stacked"]').prop('selected', true);
+	$('#wordcloud-type-div option[value="default"]').prop('selected', true);
 	processData(cachedDefaultData);
 	showVisualization(cachedParsedData, cachedNumAccount);
 });
 $("#visualization-type-selector").change(function() {
 	$('#bar-type-div option[value="stacked"]').prop('selected', true);
+	$('#wordcloud-type-div option[value="default"]').prop('selected', true);
+	showVisualization(cachedParsedData, cachedNumAccount);
+});
+$("#wordcloud-type-selector").change(function() {
 	showVisualization(cachedParsedData, cachedNumAccount);
 });
 
+// ================ SELECTOR ON CHANGE END ================
+
+
+// ================ GLOBAL VAR BEGIN ================
 var cachedRawData;
 
 var cachedDefaultData;
@@ -122,9 +143,15 @@ var cachedParsedData;
 var cachedTimeRange;
 var cachedNumAccount;
 
+var cachedOverallKeyword;
+var cachedOverallTopic;
+
 var fbValid = false;
 var twitterValid = false;
 var instaValid = false;
+
+// ================ GLOBAL VAR END ==================
+
 
 function processRawData(rawData) {
 	cachedRawData = rawData;
@@ -416,6 +443,9 @@ function processData(data) {
 	$('#dashboard').show();
 
 	cachedParsedData = parsedData;
+
+	var longWord = parsedData["words"].join(". ");
+	getTopicAJAX(longWord);
 }
 
 function showVisualization(data, n, m) {
@@ -424,13 +454,25 @@ function showVisualization(data, n, m) {
 
 	$(".d3canvas").html("");
 	$('#bar-type-div').hide();
+	$('#wordcloud-type-div').hide();
 
 	if (visualizationType == "stackedBars") {
 		stackedToGroupedBars(n, m, data);
 		$('#bar-type-div').show();
 	}
-	else if (visualizationType == "wordCloud")
-		wordCloud(data);
+	else if (visualizationType == "wordCloud") {
+		var wordCloudType = $('#wordcloud-type-selector').val();
+		if (wordCloudType == "default") {
+			wordCloud(data);
+		}
+		else if (wordCloudType == "keywords") {
+			wordCloudTopic(cachedOverallKeyword);
+		}
+		else if (wordCloudType == "topics") {
+			wordCloudTopic(cachedOverallTopic);
+		}
+		$('#wordcloud-type-div').show();
+	}
 	else if (visualizationType == "graph")
 		graph(n, m, data);
 	else if (visualizationType == "donut")
