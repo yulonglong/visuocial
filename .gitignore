@@ -41,3 +41,7 @@ db.js
 # User-defined
 oauth.json
 .tmp
+
+# Connection strings
+config/connections.js
+config/models.js
