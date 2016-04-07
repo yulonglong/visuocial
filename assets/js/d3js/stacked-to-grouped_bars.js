@@ -68,7 +68,7 @@ function stackedToGroupedBars(n, m, parsedData) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Posts/Likes");
+      .text("Number of Posts");
 
   if (m <= 18) {
     svg.append("g")
