@@ -440,7 +440,10 @@ function processData(data) {
 		// Process Data - End
 	}
 
-	$('#process').hide(500);
+	$('#process').hide();
+	$('#process').empty();
+	$('#process').detach();
+
 	$('#overview').show();
 	$('#mood-analysis').show();
 
@@ -479,6 +482,9 @@ function showVisualization(data, n, m) {
 		graph(n, m, data);
 	else if (visualizationType == "donut")
 		donut(n, data);
+
+	// to highlight the top nav bar
+	navBarHighlighter();
 }
 
 var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
