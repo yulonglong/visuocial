@@ -100,7 +100,7 @@ function getSentimentAJAX(id, text) {
 					"></a>")
 			}
 			else {
-				$('#'+id).html("<a class=\"fa fa-circle sentiment\" style='color:black;' data-toggle='tooltip' data-placement='auto left' "+
+				$('#'+id).html("<a class=\"fa fa-circle-o sentiment\" style='color: #8c8c8c;' data-toggle='tooltip' data-placement='auto left' "+
 					"title=\""+tooltipString+"\""+
 					"></a>")
 			}
@@ -441,7 +441,8 @@ function processData(data) {
 	}
 
 	$('#process').hide(500);
-	$('#dashboard').show();
+	$('#overview').show();
+	$('#mood-analysis').show();
 
 	cachedParsedData = parsedData;
 

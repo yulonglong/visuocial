@@ -24,11 +24,23 @@
 
    <style type="text/css" media="screen">
 
-   	#dashboard { 
+   	#overview { 
    		background: white;
    		padding-top: 5rem;
    		padding-bottom: 5rem;
    	}
+
+    #mood-analysis { 
+      background: #f2f2f2;
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+
+    .nav-tabs > li.active > a,
+        .nav-tabs > li.active > a:hover,
+        .nav-tabs > li.active > a:focus {
+        background-color: #d9d9d9;
+      } 
 
     /* override bootstrap's settings to respect endline in tooltips */
     .tooltip-inner {
@@ -62,15 +74,17 @@
       <div class="row">
 
          <div class="logo">
-            <a href="index.html">Visuocial</a>
+            <a href="/">Visuocial</a>
          </div>
 
          <nav id="main-nav-wrap">
             <ul class="main-navigation">
-               <li><a href="/dashboard" title="">Dashboard</a></li>
+               <li><a class="smoothscroll" href="#overview" title="">Overview</a></li>
+               <li><a class="smoothscroll" href="#mood-analysis" title="">Analysis</a></li>
                <li class="highlight with-sep"><a href="/logout?next=/login" title="">Log out</a></li>              
             </ul>
          </nav>
+
 
          <a class="menu-toggle" href="#"><span>Menu</span></a>
          
@@ -113,10 +127,10 @@
       </div>
    </section>
 
-   <section id="dashboard" style="display:none;">
-     <div class="row">
+   <section id="overview" style="display:none;">
+      <div class="row">
          <div class="col-twelve tab-full">
-            <h1>Dashboard.</h1>
+            <h1>Activity Overview</h1>
          </div>
       </div>
 
@@ -167,8 +181,16 @@
 
          </div>
       </div>
+    </section>
 
-      <div class="row hidden-xs">
+    <section id="mood-analysis" class="hidden-xs" style="display:none;">
+      <div class="row">
+         <div class="col-twelve tab-full">
+            <h1>Mood Analysis</h1>
+         </div>
+      </div>
+
+      <div class="row">
           <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#facebook-activities" style="font-family: raleway-bold;">Facebook</a></li>
             <li><a data-toggle="tab" href="#twitter-activities" style="font-family: raleway-bold;">Twitter</a></li>
@@ -180,7 +202,7 @@
                  <div class="table-responsive" id="fb_posts">
                     <table>
                       <thead>
-                        <tr><th>Snt</th><th>Post's Message</th><th class="timestamp">Timestamp</th></tr>
+                        <tr><th>Mood</th><th>Post's Message</th><th class="timestamp">Timestamp</th></tr>
                       </thead>
                       <tbody id="fb_posts_tbody">
                       </tbody>
@@ -194,7 +216,7 @@
               <div class="table-responsive" id="twitter_posts">
                  <table>
                    <thead>
-                     <tr><th>Snt</th><th>Tweet</th><th class="timestamp">Timestamp</th></tr>
+                     <tr><th>Mood</th><th>Tweet</th><th class="timestamp">Timestamp</th></tr>
                    </thead>
                    <tbody id="twitter_posts_tbody">
                    </tbody>
@@ -208,7 +230,7 @@
                 <div class="table-responsive" id="instagram_posts">
                    <table>
                      <thead>
-                       <tr><th>Snt</th><th>Post's Caption</th><th class="timestamp">Timestamp</th></tr>
+                       <tr><th>Mood</th><th>Post's Caption</th><th class="timestamp">Timestamp</th></tr>
                      </thead>
                      <tbody id="instagram_posts_tbody">
                      </tbody>
