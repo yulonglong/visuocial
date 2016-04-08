@@ -89,20 +89,66 @@ function getSentimentAJAX(id, text) {
 			}
 			if (tooltipString.length == 0) tooltipString = "N.A.";
 
+			var overallCount = parseInt($('#overall').html());
+
 			if (sentiment == "positive") {
 				$('#'+id).html("<a class=\"fa fa-plus sentiment\" style='color:green;' data-toggle='tooltip' data-placement='auto left' "+
 					"title=\""+tooltipString+"\""+
-					"></a>")
+					"></a>");
+
+				// Update individual count
+				var count = parseInt($('#overall-pos').html());
+				$('#overall-pos').html(" "+(count+1).toString());
+
+				// update overall count
+				if (overallCount == 0) {
+					$('#overall').removeClass("fa-circle-o");
+					$('#overall').addClass("fa-plus");
+					$('#overall').css("color","green");
+					$('#overall').html(" "+(overallCount+1).toString());
+				}
+				else if (overallCount == -1) {
+					$('#overall').removeClass("fa-minus");
+					$('#overall').addClass("fa-circle-o");
+					$('#overall').css("color","#8c8c8c");
+					$('#overall').html(" "+(overallCount+1).toString());
+				}
+				else {
+					$('#overall').html(" "+(overallCount+1).toString());
+				}
 			}
 			else if (sentiment == "negative") {
 				$('#'+id).html("<a class=\"fa fa-minus sentiment\" style='color:red;' data-toggle='tooltip' data-placement='auto left' "+
 					"title=\""+tooltipString+"\""+
-					"></a>")
+					"></a>");
+
+				var count = parseInt($('#overall-neg').html());
+				$('#overall-neg').html(" "+(count+1).toString());
+
+				// update overall count
+				if (overallCount == 0) {
+					$('#overall').removeClass("fa-circle-o");
+					$('#overall').addClass("fa-minus");
+					$('#overall').css("color","red");
+					$('#overall').html(" "+(overallCount-1).toString());
+				}
+				else if (overallCount == 1) {
+					$('#overall').removeClass("fa-plus");
+					$('#overall').addClass("fa-circle-o");
+					$('#overall').css("color","#8c8c8c");
+					$('#overall').html(" "+(overallCount-1).toString());
+				}
+				else {
+					$('#overall').html(" "+(overallCount-1).toString());
+				}
 			}
 			else {
 				$('#'+id).html("<a class=\"fa fa-circle-o sentiment\" style='color: #8c8c8c;' data-toggle='tooltip' data-placement='auto left' "+
 					"title=\""+tooltipString+"\""+
-					"></a>")
+					"></a>");
+
+				var count = parseInt($('#overall-neutral').html());
+				$('#overall-neutral').html(" "+(count+1).toString());
 			}
 
     		$('[data-toggle=tooltip]').tooltip();
@@ -120,6 +166,17 @@ function getSentimentAJAX(id, text) {
 $("#time-range-selector").change(function() {
 	$('#bar-type-div option[value="stacked"]').prop('selected', true);
 	$('#wordcloud-type-div option[value="default"]').prop('selected', true);
+
+	// Reset overall sentiment count
+	$('#overall').html(" 0");
+	$('#overall').removeClass("fa-minus");
+	$('#overall').removeClass("fa-plus");
+	$('#overall').addClass("fa-circle-o");
+	$('#overall').css("color","#8c8c8c");
+	$('#overall-pos').html(" 0");
+	$('#overall-neg').html(" 0");
+	$('#overall-neutral').html(" 0");
+
 	processData(cachedDefaultData);
 	showVisualization(cachedParsedData, cachedNumAccount);
 });
