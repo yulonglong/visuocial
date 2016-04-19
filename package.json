@@ -1,6 +1,6 @@
 {
   "name": "visuocial",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Visualization of Social Media Activities",
   "main": "server.js",
   "dependencies" : {
