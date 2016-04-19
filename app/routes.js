@@ -2,15 +2,15 @@
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
-
     res.redirect('/login');
 }
 
 // load up the user model
-var User       = require('../app/models/user');
+var User = require('../app/models/user');
 var request = require('request');
 var async = require('async');
 var Twit = require('twit');
+var unirest = require('unirest');
 // load the auth variables
 var configAuth = require('../config/auth.js');
 
@@ -241,10 +241,37 @@ module.exports = function (app, passport) {
     // API ENDPOINTS ===============================================================
     // =============================================================================
     
+    // Use by calling //http://url.com/api/getSentiment?text="your text here"
+    app.get('/api/getSentiment',function (req, res) {
+        // These code snippets use an open-source library. http://unirest.io/nodejs
+        unirest.post("https://twinword-sentiment-analysis.p.mashape.com/analyze/")
+        .header("X-Mashape-Key", configAuth.mashape.key)
+        .header("Content-Type", "application/x-www-form-urlencoded")
+        .header("Accept", "application/json")
+        .send("text="+req.query.text)
+        .end(function (result) {
+            // console.log(result.status, result.headers, result.body);
+            return res.send(result.body);
+        }); 
+    });
+    
+    app.post('/api/getTopic', function(req, res) {
+         // console.log("BODY:\n"+req.body["text"]);
+        unirest.post("https://twinword-topic-tagging.p.mashape.com/generate/")
+        .header("X-Mashape-Key", configAuth.mashape.key)
+        .header("Content-Type", "application/x-www-form-urlencoded")
+        .header("Accept", "application/json")
+        .send("text="+req.body["text"])
+        .end(function (result) {
+             // console.log(result.status, result.headers, result.body);
+              return res.send(result.body);
+        });
+    });
+    
     app.get('/api/getUserData', function (req, res) {
 		// if not authenticated, show login page
         if (!req.isAuthenticated()) {
-            return res.redirect('/login');
+            return res.json(false);
         } else {
             console.log(JSON.stringify(req.user));
             

@@ -18,7 +18,7 @@ function processUserDataAJAX() {
 			processData(cachedDefaultData);
 			showVisualization(cachedParsedData, cachedNumAccount);
 			// Scroll down to dashboard
-		    $('html, body').animate({ scrollTop: 500 }, 300);
+			$('html, body').animate({ scrollTop: 500 }, 300);
 		}
 	};
 	xmlhttp.open("GET","/api/getUserData",true);
@@ -282,7 +282,7 @@ function processData(data) {
 	parsedData["cumulativeFreq"] = [];
 
 	if (fbValid) {
-		var fbUserLikes = JSON.parse(data["facebook"]["userLikes"]);
+		// var fbUserLikes = JSON.parse(data["facebook"]["userLikes"]);
 		var fbRecentPosts = JSON.parse(data["facebook"]["recentPosts"]);
 
 		$("#fb_posts_tbody").html("");
@@ -428,10 +428,14 @@ function processData(data) {
 	
 	if (instaValid) {
 		var instaRecentPublish = JSON.parse(data["instagram"]["recentPublish"]);
-		var instaRecentLiked = JSON.parse(data["instagram"]["recentLiked"]);
+		// var instaRecentLiked = JSON.parse(data["instagram"]["recentLiked"]);
 		
 		$("#instagram_posts_tbody").html("");
 		for (var i=0;i<instaRecentPublish["data"].length;i++) {
+			// Check whether the created date is in the selected range, if not dont show
+			var createdDate = new Date(parseDate(parseInt(instaRecentPublish["data"][i]["created_time"])*1000));
+			if (createdDate < earliestDate) break;
+			
 			var currCaption = instaRecentPublish["data"][i]["caption"];
 			if (currCaption == null) {
 				currCaption = "-";
@@ -442,11 +446,6 @@ function processData(data) {
 				getSentimentAJAX("insta_sentiment_"+i.toString(),currCaption);
 			}
 			var createdTime = parseDate(parseInt(instaRecentPublish["data"][i]["created_time"])*1000);
-
-
-			// Check whether the created date is in the selected range, if not dont show
-			var createdDate = new Date(parseDate(parseInt(instaRecentPublish["data"][i]["created_time"])*1000));
-			if (createdDate < earliestDate) break;
 
 			var link = instaRecentPublish["data"][i]["link"];
 
