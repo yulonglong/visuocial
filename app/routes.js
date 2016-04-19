@@ -41,6 +41,11 @@ module.exports = function (app, passport) {
         req.logout();
         res.redirect('/');
     });
+    
+    // PRIVACY POLICY ======================
+    app.get('/privacy', function (req, res) {
+        res.render('privacy.ejs');
+    });
 
     // =============================================================================
     // AUTHENTICATE (FIRST LOGIN) ==================================================
