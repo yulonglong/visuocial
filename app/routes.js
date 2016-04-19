@@ -46,6 +46,11 @@ module.exports = function (app, passport) {
     app.get('/privacy', function (req, res) {
         res.render('privacy.ejs');
     });
+    
+    // DEMO ======================
+    app.get('/demo', function (req, res) {
+        res.render('demo.ejs');
+    });
 
     // =============================================================================
     // AUTHENTICATE (FIRST LOGIN) ==================================================

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--[if IE 8 ]><html class="no-js oldie ie8" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+
+   <!--- basic page needs
+   ================================================== -->
+   <meta charset="utf-8">
+	<title>Visuocial - Demo</title>
+	<meta name="description" content="">  
+	<meta name="author" content="">
+
+   <!-- mobile specific metas
+   ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+ 	<!-- CSS
+   ================================================== -->
+   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+   <link rel="stylesheet" href="css/base.css">  
+   <link rel="stylesheet" href="css/main.css">
+   <link rel="stylesheet" href="css/vendor.css">  
+
+   <style type="text/css" media="screen">
+
+   	#demo { 
+   		background: white;
+   		padding-top: 5rem;
+   		padding-bottom: 5rem;
+   	}
+
+
+   </style>   
+
+   <!-- script
+   ================================================== -->
+	<script src="js/modernizr.js"></script>
+
+   <!-- favicons
+	================================================== -->
+	<link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+
+<body id="top">
+    <% include inc/analyticstrackinggoogle.ejs %>
+    <% include inc/analyticstrackingazure.ejs %>
+
+   <!-- header 
+   ================================================== -->
+   <header>
+
+      <div class="row">
+
+         <div class="logo">
+            <a href="/">Visuocial</a>
+         </div>
+
+         <nav id="main-nav-wrap">
+            <ul class="main-navigation">
+               <li><a class="smoothscroll" href="#demo" title="">Demo</a></li>
+               <li class="highlight with-sep"><a href="/login" title="">Log in</a></li>              
+            </ul>
+         </nav>
+
+
+         <a class="menu-toggle" href="#"><span>Menu</span></a>
+         
+      </div>      
+      
+   </header> <!-- /header -->
+   
+    <section id="features">
+      <div class="row section-intro">
+          <div class="col-twelve tab-full">
+             <h1>Visuocial Video Demo</h1>
+          </div>
+      </div>
+
+   </section> <!-- /intro -->
+
+   <section id=demo>
+        <div class="row"><div class="col-twelve tab-full">
+            <h1>Video Demonstration</h1> 
+            <iframe width="960" height="640" src="https://www.youtube.com/embed/K6_m9YsROkg" frameborder="0" allowfullscreen></iframe>
+        </div></div>
+   </section>
+
+   <% include inc/footer.ejs %>
+
+</body>
+
+</html>
