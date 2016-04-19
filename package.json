@@ -12,18 +12,18 @@
     "passport-facebook" : "^2.1.0",
     "passport-twitter" : "^1.0.4",
     "passport-instagram": "^1.0.0",
-    "passport-google-oauth" : "^0.1.5",
+    "passport-google-oauth" : "^1.0.0",
     "connect-flash" : "^0.1.1",
-    "bcrypt-nodejs" : "latest",
+    "bcrypt-nodejs" : "^0.0.3",
     "request" : "^2.72.0",
     "async": "^1.5.2",
     "twit": "^2.2.3",
     "unirest": "^0.4.2",
 
-    "morgan": "^1.0.0",
-    "body-parser": "^1.0.0",
-    "cookie-parser": "^1.0.0",
-    "method-override": "^1.0.0",
-    "express-session": "^1.0.0"
+    "morgan": "^1.7.0",
+    "body-parser": "^1.15.0",
+    "cookie-parser": "^1.4.1",
+    "method-override": "^2.3.5",
+    "express-session": "^1.13.0"
   }
 }

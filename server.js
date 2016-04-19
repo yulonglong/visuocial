@@ -31,7 +31,11 @@ app.set('view engine', 'ejs'); // set up ejs for templating
 app.use(express.static(__dirname + '/views')); // load static elements such as css, etc
 
 // required for passport
-app.use(session({ secret: 'visualizesocialmediaactivities' })); // session secret
+app.use(session({ secret: 'visualizesocialmediaactivities',  // session secret
+    resave: true,
+    saveUninitialized: true
+}));
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -41,4 +45,4 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 
 // launch ======================================================================
 app.listen(port);
-console.log('The magic happens on port ' + port);
+console.log('Server listening on port : ' + port);
