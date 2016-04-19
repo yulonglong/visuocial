@@ -13,6 +13,12 @@ module.exports = function (app, passport) {
             user: req.user
         });
     });
+    
+    // LOGIN ==============================
+    app.get('/login', function (req, res) {
+        if (req.isAuthenticated()) res.redirect('/dashboard');
+        else res.render('login.ejs');
+    });
 
     // LOGOUT ==============================
     app.get('/logout', function (req, res) {
@@ -27,29 +33,29 @@ module.exports = function (app, passport) {
     // locally --------------------------------
     // LOGIN ===============================
     // show the login form
-    app.get('/login', function (req, res) {
-        res.render('login.ejs', { message: req.flash('loginMessage') });
-    });
+    // app.get('/login', function (req, res) {
+    //     res.render('login.ejs', { message: req.flash('loginMessage') });
+    // });
 
     // process the login form
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/dashboard', // redirect to the secure dashboard section
-        failureRedirect: '/login', // redirect back to the signup page if there is an error
-        failureFlash: true // allow flash messages
-    }));
+    // app.post('/login', passport.authenticate('local-login', {
+    //     successRedirect: '/dashboard', // redirect to the secure dashboard section
+    //     failureRedirect: '/login', // redirect back to the signup page if there is an error
+    //     failureFlash: true // allow flash messages
+    // }));
 
     // SIGNUP =================================
     // show the signup form
-    app.get('/signup', function (req, res) {
-        res.render('signup.ejs', { message: req.flash('signupMessage') });
-    });
+    // app.get('/signup', function (req, res) {
+    //     res.render('signup.ejs', { message: req.flash('signupMessage') });
+    // });
 
     // process the signup form
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/dashboard', // redirect to the secure dashboard section
-        failureRedirect: '/signup', // redirect back to the signup page if there is an error
-        failureFlash: true // allow flash messages
-    }));
+    // app.post('/signup', passport.authenticate('local-signup', {
+    //     successRedirect: '/dashboard', // redirect to the secure dashboard section
+    //     failureRedirect: '/signup', // redirect back to the signup page if there is an error
+    //     failureFlash: true // allow flash messages
+    // }));
 
     // facebook -------------------------------
 
@@ -104,14 +110,14 @@ module.exports = function (app, passport) {
     // =============================================================================
 
     // locally --------------------------------
-    app.get('/connect/local', function (req, res) {
-        res.render('connect-local.ejs', { message: req.flash('loginMessage') });
-    });
-    app.post('/connect/local', passport.authenticate('local-signup', {
-        successRedirect: '/dashboard', // redirect to the secure dashboard section
-        failureRedirect: '/connect/local', // redirect back to the signup page if there is an error
-        failureFlash: true // allow flash messages
-    }));
+    // app.get('/connect/local', function (req, res) {
+    //     res.render('connect-local.ejs', { message: req.flash('loginMessage') });
+    // });
+    // app.post('/connect/local', passport.authenticate('local-signup', {
+    //     successRedirect: '/dashboard', // redirect to the secure dashboard section
+    //     failureRedirect: '/connect/local', // redirect back to the signup page if there is an error
+    //     failureFlash: true // allow flash messages
+    // }));
 
     // facebook -------------------------------
 
@@ -169,14 +175,14 @@ module.exports = function (app, passport) {
     // user account will stay active in case they want to reconnect in the future
 
     // local -----------------------------------
-    app.get('/unlink/local', isLoggedIn, function (req, res) {
-        var user = req.user;
-        user.local.email = undefined;
-        user.local.password = undefined;
-        user.save(function (err) {
-            res.redirect('/dashboard');
-        });
-    });
+    // app.get('/unlink/local', isLoggedIn, function (req, res) {
+    //     var user = req.user;
+    //     user.local.email = undefined;
+    //     user.local.password = undefined;
+    //     user.save(function (err) {
+    //         res.redirect('/dashboard');
+    //     });
+    // });
 
     // facebook -------------------------------
     app.get('/unlink/facebook', isLoggedIn, function (req, res) {
@@ -222,5 +228,5 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    res.redirect('/');
+    res.redirect('/login');
 }
