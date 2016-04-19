@@ -82,6 +82,27 @@
 
             </div>
         </div>
+        
+        <!-- INSTAGRAM INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3 class="text-info"><span class="fa fa-instagram"></span> Instagram</h3>
+
+                <% if (user.instagram.token) { %>
+                    <p>
+                        <strong>id</strong>: <%= user.instagram.id %><br>
+                        <strong>token</strong>: <%= user.instagram.token %><br>
+                        <strong>display name</strong>: <%= user.instagram.displayName %><br>
+                        <strong>username</strong>: <%= user.instagram.username %>
+                    </p>
+
+                    <a href="/unlink/instagram" class="btn btn-info">Unlink</a>
+                <% } else { %>
+                    <a href="/connect/instagram" class="btn btn-info">Connect Instagram</a>
+                <% } %>
+
+            </div>
+        </div>
 
         <!-- GOOGLE INFORMATION -->
         <div class="col-sm-6">
