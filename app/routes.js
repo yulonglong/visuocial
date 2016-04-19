@@ -1,3 +1,19 @@
+// route middleware to ensure user is logged in
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+
+    res.redirect('/login');
+}
+
+// load up the user model
+var User       = require('../app/models/user');
+var request = require('request');
+var async = require('async');
+var Twit = require('twit');
+// load the auth variables
+var configAuth = require('../config/auth.js');
+
 module.exports = function (app, passport) {
 
     // normal routes ===============================================================
@@ -219,14 +235,82 @@ module.exports = function (app, passport) {
             res.redirect('/dashboard');
         });
     });
-
-
+    
+    
+    // =============================================================================
+    // API ENDPOINTS ===============================================================
+    // =============================================================================
+    
+    app.get('/api/getUserData', function (req, res) {
+		// if not authenticated, show login page
+        if (!req.isAuthenticated()) {
+            return res.redirect('/login');
+        } else {
+            console.log(JSON.stringify(req.user));
+            
+            var facebookToken = req.user.facebook.token;
+            var twitterToken = req.user.twitter.token;
+            var twitterTokenSecret = req.user.twitter.tokenSecret;
+            var instagramToken = req.user.instagram.token;
+            
+            // console.log("FACEBOOK   " +facebookToken);
+            // console.log("TWITTER   " +twitterToken);
+            // console.log("TWITTER SCRET " +twitterTokenSecret);
+            // console.log("INSTAGRAM   " +instagramToken);
+            
+            var output = {};
+            output.instagram = {};
+            output.facebook = {};
+            output.twitter = {};
+            
+            async.parallel([
+                function recentPosts(callback) {
+                    if (facebookToken != undefined) {
+                        request.get({
+                            url: 'https://graph.facebook.com/v2.5/me/feed?access_token=' + facebookToken
+                        }, function (err, res, body) {
+                            if (err) return res.negotiate(err);
+                            output.facebook.recentPosts = body;
+                            callback(false);
+                        });
+                    }
+                    else callback(false);
+                },
+                
+                function recentTweets(callback) {
+                    if (twitterToken != undefined && twitterTokenSecret != undefined) {
+                        var T = new Twit({
+                            consumer_key:         configAuth.twitterAuth.consumerKey,
+                            consumer_secret:      configAuth.twitterAuth.consumerSecret,
+                            access_token:         twitterToken,
+                            access_token_secret:  twitterTokenSecret,
+                            timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
+                        });
+                        T.get('statuses/user_timeline', function (err, data, response) {
+                            output.twitter.recentTweets = data;
+                            callback(false);
+                        });
+                    }
+                    else callback(false);
+                },
+                
+                function recentPublish(callback) {
+                    if (instagramToken != undefined) {
+                        request.get({
+                            url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token=' + instagramToken
+                        }, function (err, res, body) {
+                            if (err) return res.negotiate(err);
+                            output.instagram.recentPublish = body;
+                            callback(false);
+                        }); 
+                    }
+                    else callback(false);
+                },
+                
+            ], function callback(err) {
+                res.json(output);
+            });
+        }
+    });
+    
 };
-
-// route middleware to ensure user is logged in
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
-
-    res.redirect('/login');
-}

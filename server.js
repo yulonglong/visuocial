@@ -31,7 +31,7 @@ app.set('view engine', 'ejs'); // set up ejs for templating
 app.use(express.static(__dirname + '/views')); // load static elements such as css, etc
 
 // required for passport
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(session({ secret: 'visualizesocialmediaactivities' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
