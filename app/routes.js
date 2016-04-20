@@ -283,7 +283,7 @@ module.exports = function (app, passport) {
         if (!req.isAuthenticated()) {
             return res.json(false);
         } else {
-            console.log(JSON.stringify(req.user));
+            // console.log(JSON.stringify(req.user));
             
             var facebookToken = req.user.facebook.token;
             var twitterToken = req.user.twitter.token;
