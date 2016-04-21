@@ -62,6 +62,13 @@ module.exports = function (app, passport) {
             isAuthenticated: req.isAuthenticated()
         });
     });
+    
+    // FAQ ======================
+    app.get('/faq', function (req, res) {
+        res.render('faq.ejs', {
+            isAuthenticated: req.isAuthenticated()
+        });
+    });
 
     // =============================================================================
     // AUTHENTICATE (FIRST LOGIN) ==================================================
