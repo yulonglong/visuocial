@@ -213,39 +213,21 @@ var instaValid = false;
 function processRawData(rawData) {
 	cachedRawData = rawData;
 	var responseArray = JSON.parse(rawData);
-	$("#welcome_username").html(responseArray["username"]);
 
 	var n = 0;
 
-	if (jQuery.isEmptyObject(responseArray["facebook"])) {
-		$("#link_fb").html("<i class=\"fa fa-minus-square\"></i> Not Linked");
-		$("#link_fb_button").removeClass("button-disabled");
-		$("#link_fb_button").attr("href","/connect/facebook");
-	}
-	else {
+	if (!jQuery.isEmptyObject(responseArray["facebook"])) {
 		$("#link_fb").html("<i class=\"fa fa-check-square\"></i> Linked");
 		fbValid = true;
 		n++;
 	}
 
-	if (jQuery.isEmptyObject(responseArray["twitter"])) {
-		$("#link_twitter").html("<i class=\"fa fa-minus-square\"></i> Not Linked");
-		$("#link_twitter_button").removeClass("button-disabled");
-		$("#link_twitter_button").attr("href","/connect/twitter");
-	}
-	else {
-		$("#link_twitter").html("<i class=\"fa fa-check-square\"></i> Linked");
+	if (!jQuery.isEmptyObject(responseArray["twitter"])) {
 		twitterValid = true;
 		n++;
 	}
 
-	if (jQuery.isEmptyObject(responseArray["instagram"])) {
-		$("#link_insta").html("<i class=\"fa fa-minus-square\"></i> Not Linked");
-		$("#link_insta_button").removeClass("button-disabled");
-		$("#link_insta_button").attr("href","/connect/instagram");
-	}
-	else {
-		$("#link_insta").html("<i class=\"fa fa-check-square\"></i> Linked");
+	if (!jQuery.isEmptyObject(responseArray["instagram"])) {
 		instaValid = true;
 		n++;
 	}

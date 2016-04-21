@@ -93,24 +93,33 @@
       </div>
       <div class="row section-intro">
           <div class="col-four tab-full">
-             <a id="link_fb_button" class="button button-disabled full-width">Link Facebook <i class="fa fa-facebook"></i></a>
-             <h6 id="link_fb" style="text-align: center;"></h6>
              <% if (user.facebook.token) { %>
+                <a id="link_fb_button" class="button button-disabled full-width">Link Facebook <i class="fa fa-facebook"></i></a>
+                <h6 id="link_fb" style="text-align: center;"><i class="fa fa-check-square"></i> Linked</h6>
                 <h6><%= user.facebook.name %></h6>
+             <% } else { %>
+                <a id="link_fb_button" class="button full-width" href="/connect/facebook">Link Facebook <i class="fa fa-facebook"></i></a>
+                <h6 id="link_fb" style="text-align: center;"><i class="fa fa-minus-square"></i> Not Linked</h6>
              <% } %>
           </div>
           <div class="col-four tab-full">
-             <a id="link_twitter_button" class="button button-disabled full-width">Link Twitter <i class="fa fa-twitter"></i></a>
-             <h6 id="link_twitter" style="text-align: center;"></h6>
              <% if (user.twitter.token) { %>
+                <a id="link_twitter_button" class="button button-disabled full-width">Link Twitter <i class="fa fa-twitter"></i></a>
+                <h6 id="link_twitter" style="text-align: center;"><i class="fa fa-check-square"></i> Linked</h6>
                 <h6><%= user.twitter.displayName %></h6>
+             <% } else { %>
+                <a id="link_twitter_button" class="button full-width" href="/connect/twitter">Link Twitter <i class="fa fa-twitter"></i></a>
+                <h6 id="link_twitter" style="text-align: center;"><i class="fa fa-minus-square"></i> Not Linked</h6>
              <% } %>
           </div>
           <div class="col-four tab-full">
-             <a id="link_insta_button" class="button button-disabled full-width">Link Instagram <i class="fa fa-instagram"></i></a>
-             <h6 id="link_insta" style="text-align: center;"></h6>
              <% if (user.instagram.token) { %>
+                <a id="link_insta_button" class="button button-disabled full-width">Link Instagram <i class="fa fa-instagram"></i></a>
+                <h6 id="link_insta" style="text-align: center;"><i class="fa fa-check-square"></i> Linked</h6>
                 <h6><%= user.instagram.displayName %></h6>
+             <% } else { %>
+                <a id="link_insta_button" class="button full-width" href="/connect/instagram">Link Instagram <i class="fa fa-instagram"></i></a>
+                <h6 id="link_insta" style="text-align: center;"><i class="fa fa-minus-square"></i> Not Linked</h6>
              <% } %>
           </div>
       </div>
