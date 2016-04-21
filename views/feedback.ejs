@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--[if IE 8 ]><html class="no-js oldie ie8" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+
+   <!--- basic page needs
+   ================================================== -->
+   <meta charset="utf-8">
+	<title>Visuocial - Feedback</title>
+	<meta name="description" content="">  
+	<meta name="author" content="">
+
+    <% include inc/header.ejs %>
+    
+    <style type="text/css" media="screen">
+        #feedback { 
+            background: white;
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+   </style> 
+    
+</head>
+
+<body id="top">
+    <% include inc/analyticstrackinggoogle.ejs %>
+    <% include inc/analyticstrackingazure.ejs %>
+
+   <!-- header 
+   ================================================== -->
+   <header>
+
+      <div class="row">
+
+         <div class="logo">
+            <a href="/">Visuocial</a>
+         </div>
+
+         <nav id="main-nav-wrap">
+            <ul class="main-navigation">
+               <li><a class="smoothscroll" href="#feedback" title="">Feedback</a></li>
+               <% if (isAuthenticated) { %>
+                   <li class="highlight with-sep"><a href="/dashboard" title="">Dashboard</a></li>
+                   <li class="highlight with-sep"><a href="/logout" title="">Log out</a></li>
+               <% } else { %>
+                   <li class="highlight with-sep"><a href="/login" title="">Log in</a></li>
+               <% } %>
+            </ul>
+         </nav>
+
+
+         <a class="menu-toggle" href="#"><span>Menu</span></a>
+         
+      </div>      
+      
+   </header> <!-- /header -->
+   
+    <section id="features">
+      <div class="row section-intro">
+          <div class="col-twelve tab-full">
+             <h1>Feedback</h1>
+          </div>
+      </div>
+
+   </section> <!-- /intro -->
+
+   <section id=feedback>
+        <div class="row section-intro">
+            <div class="col-twelve with-bottom-line">
+                <h1>Feedback Form.</h1>
+                <p class="lead">Please fill the form below and send us your feedback!</p>
+            </div>
+        </div>
+
+        <div class="row section-intro">
+           
+            <div id="contact-form" class="col-twelve tab-full">
+            
+            <% if (status == 'default') { %>
+                <!-- form -->
+                <form name="contactForm" id="contactForm" method="post" action="#">
+                <fieldset>
+                    <div class="group">
+                        <input name="contactName" type="text" id="contactName" placeholder="Name*" value="" minLength="2" required />
+                    </div>
+                    <div>
+                        <input name="contactEmail" type="email" id="contactEmail" placeholder="Email*" value="" required />
+                    </div>
+                    <div>
+                        <input name="contactSubject" type="text" id="contactSubject" placeholder="Subject*"  value="" required />
+                    </div>                       
+                    <div>
+                        <textarea name="contactMessage"  id="contactMessage" placeholder="Message*" rows="10" cols="50" required ></textarea>
+                    </div>                      
+                    <div>
+                        <button class="submit">Submit</button>
+                    </div>
+
+                </fieldset>
+                </form> <!-- Form End -->
+                
+            <% } else if (status == 'success') { %>
+                <!-- contact-success -->
+                <p style="color: green"><%= message %></p>
+                <p><a href="/">Back to home</a></p>
+            <% } else if (status == 'failed') { %>
+                <!-- contact-warning -->
+                <p style="color: red"><%= message %></p>
+                <p><a href="#" onclick="history.back();">Back</a></p>
+            <% } %>
+            </div>
+        </div>
+   </section>
+
+   <% include inc/footer.ejs %>
+
+</body>
+
+</html>

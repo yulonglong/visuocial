@@ -69,6 +69,63 @@ module.exports = function (app, passport) {
             isAuthenticated: req.isAuthenticated()
         });
     });
+    
+    // Feedback ======================
+    app.get('/feedback', function (req, res) {
+        res.render('feedback.ejs', {
+            isAuthenticated: req.isAuthenticated(),
+            user: req.user,
+            status: 'default'
+        });
+    });
+    
+    app.post('/feedback', function (req, res) {
+        // console.log("REQ BODY " + JSON.stringify(req.body));
+        var sendgrid  = require('sendgrid')(configAuth.sendgrid.key);
+        var userInformation = '';
+        
+        if (req.isAuthenticated()) {
+            var copiedUser = JSON.parse(JSON.stringify(req.user));
+            if (!!copiedUser.facebook) delete copiedUser.facebook.token;
+            if (!!copiedUser.twitter) {
+                delete copiedUser.twitter.token;
+                delete copiedUser.twitter.tokenSecret;
+            }
+            if (!!copiedUser.instagram) delete copiedUser.instagram.token;
+            userInformation = JSON.stringify(copiedUser);
+        }
+        var email     = new sendgrid.Email({
+            to:       'sky@u.nus.edu',
+            bcc:      'yulonglong2005@gmail.com',
+            from:     'feedback@visuocial.com',
+            subject:  '[visuocial.com] ' + req.body.contactSubject,
+            html:     'From : ' + req.body.contactName + ' (' + req.body.contactEmail + ')' + '<br><br>' +
+                        '<h3>' + req.body.contactSubject + '</h3>' +
+                        '<p>' + req.body.contactMessage.replace(/(?:\r\n|\r|\n)/g,'<br>') + '</p>' + '<br>' +
+                        userInformation
+        });
+        
+        sendgrid.send(email, function(err, json) {
+            if (err) {
+                console.error(err);
+                res.render('feedback.ejs', {
+                    isAuthenticated: req.isAuthenticated(),
+                    user: req.user,
+                    status: 'failed',
+                    message: 'Sorry, failed to send message. Please try again.'
+                });
+            }
+            else {
+                console.log("SendGrid Email Success : " + JSON.stringify(json));
+                res.render('feedback.ejs', {
+                    isAuthenticated: req.isAuthenticated(),
+                    user: req.user,
+                    status: 'success',
+                    message: 'Thank you for your feedback. We will get back to you soon!'
+                });
+            }
+        });
+    });
 
     // =============================================================================
     // AUTHENTICATE (FIRST LOGIN) ==================================================

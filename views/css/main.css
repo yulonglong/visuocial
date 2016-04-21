@@ -512,7 +512,7 @@ select {
 	display: block;
 	margin: auto;
 	width: 100%;
-	max-width: 400px;
+	max-width: 500px;
 	height: 6rem;
 	padding: 1.5rem 2rem;
 	border: 0;
@@ -525,12 +525,8 @@ select {
 	border-radius: 3px;
 	background: #FFFFFF;
 	border: 1px solid #d5d5d5;
-	-moz-transition: all 0.3s ease-in-out;
-	-o-transition: all 0.3s ease-in-out;
-	-webkit-transition: all 0.3s ease-in-out;
-	-ms-transition: all 0.3s ease-in-out;
-	transition: all 0.3s ease-in-out;
 }
+
 .ss-custom-select {
 	position: relative;
 	padding: 0;
@@ -679,12 +675,10 @@ input[type="button"]:focus {
 	color: #bfbfbf;
 }
 .button-disabled:hover,
-button:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover,
 input[type="button"]:hover,
 .button-disabled:focus,
-button:focus,
 input[type="submit"]:focus,
 input[type="reset"]:focus,
 input[type="button"]:focus {
@@ -2413,3 +2407,13 @@ footer ul li {
 }
 
 /*# sourceMappingURL=main.css.map */
+
+/* Padding for Feedback form */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+#feedback textarea,
+#feedback select {
+	margin-bottom: 45px;
+	width: 100%;
+}
