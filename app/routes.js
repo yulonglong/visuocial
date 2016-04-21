@@ -20,20 +20,27 @@ module.exports = function (app, passport) {
 
     // show the home page (will also have our login links)
     app.get('/', function (req, res) {
-        res.render('index.ejs');
+        res.render('index.ejs', {
+            isAuthenticated: req.isAuthenticated()
+        });
     });
 
     // DASHBOARD SECTION =========================
     app.get('/dashboard', isLoggedIn, function (req, res) {
         res.render('dashboard.ejs', {
-            user: req.user
+            user: req.user,
+            isAuthenticated: req.isAuthenticated()
         });
     });
     
     // LOGIN ==============================
     app.get('/login', function (req, res) {
         if (req.isAuthenticated()) res.redirect('/dashboard');
-        else res.render('login.ejs');
+        else {
+            res.render('login.ejs', {
+                isAuthenticated: req.isAuthenticated()
+            });
+        }
     });
 
     // LOGOUT ==============================
@@ -44,12 +51,16 @@ module.exports = function (app, passport) {
     
     // PRIVACY POLICY ======================
     app.get('/privacy', function (req, res) {
-        res.render('privacy.ejs');
+        res.render('privacy.ejs', {
+            isAuthenticated: req.isAuthenticated()
+        });
     });
     
     // DEMO ======================
     app.get('/demo', function (req, res) {
-        res.render('demo.ejs');
+        res.render('demo.ejs', {
+            isAuthenticated: req.isAuthenticated()
+        });
     });
 
     // =============================================================================

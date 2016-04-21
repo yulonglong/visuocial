@@ -33,7 +33,12 @@
 				<ul class="main-navigation">
 					<li class="current"><a class="smoothscroll"  href="#intro" title="">Home</a></li>
 					<li><a class="smoothscroll"  href="#process" title="">Instructions</a></li>
-					<li class="highlight with-sep"><a href="login" title="">Log In</a></li>
+					<% if (isAuthenticated) { %>
+						<li class="highlight with-sep"><a href="/dashboard" title="">Dashboard</a></li>
+						<li class="highlight with-sep"><a href="/logout" title="">Log out</a></li>
+					<% } else { %>
+						<li class="highlight with-sep"><a href="/login" title="">Log in</a></li>
+					<% } %>
 				</ul>
 			</nav>
 

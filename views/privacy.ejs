@@ -42,7 +42,12 @@
          <nav id="main-nav-wrap">
             <ul class="main-navigation">
                <li><a class="smoothscroll" href="#privacy" title="">Privacy</a></li>
-               <li class="highlight with-sep"><a href="/login" title="">Log in</a></li>              
+               <% if (isAuthenticated) { %>
+                   <li class="highlight with-sep"><a href="/dashboard" title="">Dashboard</a></li>
+                   <li class="highlight with-sep"><a href="/logout" title="">Log out</a></li>
+               <% } else { %>
+                   <li class="highlight with-sep"><a href="/login" title="">Log in</a></li>
+               <% } %>
             </ul>
          </nav>
 
@@ -67,7 +72,7 @@
             <h1>Privacy Policy</h1><hr>
            <h2>Data Controller and Owner</h2>
             <p>
-            Steven Kester Yuwono - 13 Computing Drive Singapore, 117417,<br>
+            Steven Kester Yuwono - 13 Computing Drive Singapore, 117417<br>
             sky@u.nus.edu<br>
             </p>
     <hr></div></div>
