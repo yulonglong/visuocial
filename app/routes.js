@@ -326,14 +326,13 @@ module.exports = function (app, passport) {
     // API ENDPOINTS ===============================================================
     // =============================================================================
     
-    // Use by calling //http://url.com/api/getSentiment?text="your text here"
-    app.get('/api/getSentiment',function (req, res) {
+    app.post('/api/getSentiment',function (req, res) {
         // These code snippets use an open-source library. http://unirest.io/nodejs
         unirest.post("https://twinword-sentiment-analysis.p.mashape.com/analyze/")
         .header("X-Mashape-Key", configAuth.mashape.key)
         .header("Content-Type", "application/x-www-form-urlencoded")
         .header("Accept", "application/json")
-        .send("text="+req.query.text)
+        .send("text="+req.body["text"])
         .end(function (result) {
             // console.log(result.status, result.headers, result.body);
             return res.send(result.body);

@@ -155,8 +155,10 @@ function getSentimentAJAX(id, text) {
 
 		}
 	};
-	xmlhttp.open("GET","/api/getSentiment?text=\""+text+"\"",true);
-	xmlhttp.send();
+	xmlhttp.open("POST","/api/getSentiment", true);
+	xmlhttp.setRequestHeader("Content-type", "application/json");
+	var textObject = { "text": text };
+	xmlhttp.send(JSON.stringify(textObject));
 }
 
 // ================ AJAX FUNCTIONS END ================
