@@ -273,7 +273,7 @@ function processData(data) {
 		for (var i=0;i<fbRecentPosts["data"].length;i++) {
 			var createdTime = parseDate(fbRecentPosts["data"][i]["created_time"]);
 			// Check whether the created date is in the selected range, if not dont show
-			var createdDate = new Date(parseDate(fbRecentPosts["data"][i]["created_time"]));
+			var createdDate = new Date(fbRecentPosts["data"][i]["created_time"]);
 			if (createdDate < earliestDate) break;
 
 			var currMessage = fbRecentPosts["data"][i]["message"];
@@ -350,7 +350,7 @@ function processData(data) {
 		for (var i=0;i<twitterRecentWeets["recentTweets"].length;i++) {
 			var createdTime = parseDate(twitterRecentWeets["recentTweets"][i]["created_at"]);
 			// Check whether the created date is in the selected range, if not dont show
-			var createdDate = new Date(parseDate(twitterRecentWeets["recentTweets"][i]["created_at"]));
+			var createdDate = new Date(twitterRecentWeets["recentTweets"][i]["created_at"]);
 			if (createdDate < earliestDate) break;
 
 			var currTweet = twitterRecentWeets["recentTweets"][i]["text"];
@@ -417,7 +417,7 @@ function processData(data) {
 		$("#instagram_posts_tbody").html("");
 		for (var i=0;i<instaRecentPublish["data"].length;i++) {
 			// Check whether the created date is in the selected range, if not dont show
-			var createdDate = new Date(parseDate(parseInt(instaRecentPublish["data"][i]["created_time"])*1000));
+			var createdDate = new Date(parseInt(instaRecentPublish["data"][i]["created_time"])*1000);
 			if (createdDate < earliestDate) break;
 			
 			var currCaption = instaRecentPublish["data"][i]["caption"];
