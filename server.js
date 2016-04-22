@@ -28,7 +28,10 @@ app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs'); // set up ejs for templating
-app.use(express.static(__dirname + '/views')); // load static elements such as css, etc
+app.use(express.static(__dirname + '/views/css')); // load static elements such as css, etc
+app.use(express.static(__dirname + '/views/fonts'));
+app.use(express.static(__dirname + '/views/images'));
+app.use(express.static(__dirname + '/views/js'));
 
 // required for passport
 app.use(session({ secret: 'visualizesocialmediaactivities',  // session secret
