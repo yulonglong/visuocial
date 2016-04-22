@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--[if IE 8 ]><html class="no-js oldie ie8" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+
+   <!--- basic page needs
+   ================================================== -->
+   <meta charset="utf-8">
+	<title>Visuocial - About us</title>
+	<meta name="description" content="">  
+	<meta name="author" content="">
+
+    <% include inc/header.ejs %>
+    
+    <style type="text/css" media="screen">
+        #about { 
+            background: white;
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+   </style> 
+    
+</head>
+
+<body id="top">
+    <% include inc/analyticstrackinggoogle.ejs %>
+    <% include inc/analyticstrackingazure.ejs %>
+
+   <!-- header 
+   ================================================== -->
+   <header>
+
+      <div class="row">
+
+         <div class="logo">
+            <a href="/">Visuocial</a>
+         </div>
+
+         <nav id="main-nav-wrap">
+            <ul class="main-navigation">
+               <li><a class="smoothscroll" href="#about" title="">About us</a></li>
+               <% if (isAuthenticated) { %>
+                   <li class="highlight with-sep"><a href="/dashboard" title="">Dashboard</a></li>
+                   <li class="highlight with-sep"><a href="/logout" title="">Log out</a></li>
+               <% } else { %>
+                   <li class="highlight with-sep"><a href="/login" title="">Log in</a></li>
+               <% } %>
+            </ul>
+         </nav>
+
+
+         <a class="menu-toggle" href="#"><span>Menu</span></a>
+         
+      </div>      
+      
+   </header> <!-- /header -->
+   
+    <section id="features">
+      <div class="row section-intro">
+          <div class="col-twelve tab-full">
+             <h1>About</h1>
+          </div>
+      </div>
+
+   </section> <!-- /intro -->
+
+   <section id=about>
+        <div class="row section-intro">
+            <div class="col-twelve with-bottom-line">
+                <h1>About Us.</h1>
+                <p class="lead">Who are we?</p>
+            </div>
+        </div>
+
+        <div class="row section-intro">
+            <p>Visuocial is developed, hosted, and maintained by <a href="http://yulonglong.com">Steven Kester Yuwono</a>, a final year student at the National University of Singapore pursuing Bachelor degree in Computer Science, specializing in Artificial Intelligence and Natural Language Processing.</p>
+            <p><a href="mailto:sky@u.nus.edu?Subject=Visuocial%20Contact" target="_top"><i class="fa fa-envelope"></i> sky@u.nus.edu</a></p>
+            <p><a href="http://yulonglong.com"><i class="fa fa-home"></i> http://yulonglong.com</a></p>
+        </div>
+   </section>
+
+   <% include inc/footer.ejs %>
+
+</body>
+
+</html>

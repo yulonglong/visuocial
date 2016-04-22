@@ -70,6 +70,13 @@ module.exports = function (app, passport) {
         });
     });
     
+    // About us ======================
+    app.get('/about', function (req, res) {
+        res.render('about.ejs', {
+            isAuthenticated: req.isAuthenticated()
+        });
+    });
+    
     // Feedback ======================
     app.get('/feedback', function (req, res) {
         res.render('feedback.ejs', {
