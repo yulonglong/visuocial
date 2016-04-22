@@ -20,7 +20,6 @@
     "twit": "^2.2.3",
     "unirest": "^0.4.2",
     "sendgrid": "^1.9.2",
-    "connect-favicons": "^0.1.4",
 
     "morgan": "^1.7.0",
     "body-parser": "^1.15.0",

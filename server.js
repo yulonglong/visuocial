@@ -8,7 +8,6 @@ var port     = process.env.PORT || 1337;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
-var favicons = require('connect-favicons');
 
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -29,7 +28,6 @@ app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs'); // set up ejs for templating
-app.use(favicons(__dirname + '/views/static/icons'));
 app.use(express.static(__dirname + '/views/static')); // load static elements such as css, etc
 
 // required for passport
