@@ -70,7 +70,7 @@ function executeWordCloud(wordArray) {
   d3.layout.cloud().size([960, 500])
       .words(wordArray)
       .rotate(function() { return ~~(Math.random() * 2) * 90; })
-      .font("Raleway-semibold")
+      .font("raleway-bold")
       .text(function(d) { return d.text; })
       .fontSize(function(d) { return d.size*multiplier; })
       .on("end", draw)
@@ -83,7 +83,7 @@ function executeWordCloud(wordArray) {
       cloud.enter()
         .append("text")
         .style("font-size", function(d) { return d.size + "px"; })
-        .style("font-family", "Raleway-semibold") 
+        .style("font-family", "raleway-semibold") 
         .style("fill", function(d, i) { return fill(i); })
         .attr("text-anchor", "middle")
         .text(function(d) { return d.text; });
