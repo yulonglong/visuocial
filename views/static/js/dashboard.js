@@ -271,11 +271,11 @@ function processData(data) {
 
 		$("#fb_posts_tbody").html("");
 		for (var i=0;i<fbRecentPosts["data"].length;i++) {
-			var createdTime = parseDate(fbRecentPosts["data"][i]["created_time"]);
 			// Check whether the created date is in the selected range, if not dont show
-			var createdDate = new Date(fbRecentPosts["data"][i]["created_time"]);
+			var createdDate = parseFbDate(fbRecentPosts["data"][i]["created_time"]);
 			if (createdDate < earliestDate) break;
-
+			
+			var createdTime = parseDate(createdDate);
 			var currMessage = fbRecentPosts["data"][i]["message"];
 			var sentiment = "neutral";
 			if (currMessage !== undefined)	{
@@ -321,7 +321,7 @@ function processData(data) {
 		}
 
 		for (var i=0;i<fbRecentPosts["data"].length;i++) {
-			var fbCurrDate = new Date(fbRecentPosts["data"][i]["created_time"]);
+			var fbCurrDate = parseFbDate(fbRecentPosts["data"][i]["created_time"]);
 			var dd = fbCurrDate.getDate();
 			var mm = fbCurrDate.getMonth()+1; //January is 0!
 			var yy = fbCurrDate.getFullYear();
@@ -348,11 +348,11 @@ function processData(data) {
 
 		$("#twitter_posts_tbody").html("");
 		for (var i=0;i<twitterRecentWeets["recentTweets"].length;i++) {
-			var createdTime = parseDate(twitterRecentWeets["recentTweets"][i]["created_at"]);
 			// Check whether the created date is in the selected range, if not dont show
 			var createdDate = new Date(twitterRecentWeets["recentTweets"][i]["created_at"]);
 			if (createdDate < earliestDate) break;
-
+			
+			var createdTime = parseDate(createdDate);
 			var currTweet = twitterRecentWeets["recentTweets"][i]["text"];
 			if (currTweet !== undefined) {
 				parsedData["words"].push(currTweet);
@@ -429,7 +429,7 @@ function processData(data) {
 				parsedData["words"].push(currCaption);
 				getSentimentAJAX("insta_sentiment_"+i.toString(),currCaption);
 			}
-			var createdTime = parseDate(parseInt(instaRecentPublish["data"][i]["created_time"])*1000);
+			var createdTime = parseDate(createdDate);
 
 			var link = instaRecentPublish["data"][i]["link"];
 
@@ -531,8 +531,8 @@ var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
-function parseDate(uglyDate) {
-	var currentdate = new Date(uglyDate);
+function parseDate(dateObject) {
+	var currentdate = dateObject;
 	var hours = currentdate.getHours();
 	if (hours < 10) hours = '0'+hours;
 	var minutes = currentdate.getMinutes();
@@ -544,4 +544,21 @@ function parseDate(uglyDate) {
                 + hours + ":"  
                 + minutes;
     return datetime;
+}
+
+function parseFbDate(fbDate) {
+	// Parse facebook dates manually
+	// e.g. 2016-04-22T15:05:17+0000
+	// offset can be ignored as facebook created_time format is already UTC
+	var year = fbDate.substring(0,4);
+	var month = parseInt(fbDate.substring(5,7))-1;
+	var day = fbDate.substring(8,10);
+	var hour = fbDate.substring(11,13);
+	var minute = fbDate.substring(14,16);
+	var second = fbDate.substring(17,19);
+	var date = new Date(year, month, day, hour, minute, second, 0);
+	// Offset from current UTC date to client's machine timezone
+	offset = date.getTimezoneOffset();
+	date.setMinutes(date.getMinutes()-offset);
+	return date;
 }
