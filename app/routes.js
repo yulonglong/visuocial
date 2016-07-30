@@ -103,6 +103,7 @@ module.exports = function (app, passport) {
         }
         var email     = new sendgrid.Email({
             to:       'sky@u.nus.edu',
+            cc:       req.body.contactEmail,
             bcc:      'yulonglong2005@gmail.com',
             from:     'feedback@visuocial.com',
             subject:  '[visuocial.com] ' + req.body.contactSubject,
