@@ -239,5 +239,9 @@
 		}		
 
 	});		
+	
+	// Set header height to be the current window height.
+	// Does not change the height dynamically, set it once only at the beginning
+	$('#intro').height(jQuery(window).height());
 
 })(jQuery);
